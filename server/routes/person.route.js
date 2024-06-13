@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createPerson } from "../controllers/person.controller.js";
+import personController from "../controllers/person.controller.js";
 
 /* 
     Aca creamos las rutas get, post, put, delete, etc...
@@ -7,8 +7,13 @@ import { createPerson } from "../controllers/person.controller.js";
 */
 const router = Router();
 
-//Create
-router.post("/", createPerson);
+router.post("/student", personController.createStudent);
+router.post("/teacher", personController.createTeacher);
+router.get("/:id", personController.getPersonById);
+router.put("/:id", personController.updatePerson);
+router.delete("/:id", personController.deletePerson);
 
+router.post("/:id/subjects/:subjectId", personController.addSubjectToPerson);
+router.delete("/id/subjects/:subjectId", personController.removeSubjectFromPerson);
 
 export default router;
