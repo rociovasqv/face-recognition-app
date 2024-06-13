@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import dotenv from "dotenv";
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';

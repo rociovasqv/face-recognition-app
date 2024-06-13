@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import mongoose from "mongoose";
 import { VITE_MONGODB_URL } from "./index.js";
 

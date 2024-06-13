@@ -18,4 +18,7 @@ module.exports = {
       { allowConstantExport: true },
     ],
   },
+  global: {
+    process: "readonly"
+  }
 }
