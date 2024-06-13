@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { createServer } from "http";
 import { PORT } from "./config/index.js";
 import { initializeDB } from "./config/init.js";
