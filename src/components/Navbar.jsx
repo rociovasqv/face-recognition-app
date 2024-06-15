@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Navbar() {
+const Navbar = () => {
   //Un pequeño ejemplo, hay que seguir desarrollando, usar <Link> </Link> para urls
   return (
     <nav>
