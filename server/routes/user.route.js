@@ -7,6 +7,9 @@ import userController from "../controllers/user.controller.js";
 */
 const router = Router();
 
+router.post("/login", userController.login);
+router.post("/logout", userController.logout);
+
 router.post("/", userController.createUser);
 router.get("/:id", userController.getUserById);
 router.put("/:id", userController.updateUser);
