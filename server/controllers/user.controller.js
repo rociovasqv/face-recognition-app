@@ -1,5 +1,6 @@
 import userService from "../services/user.service.js";
 import { Roles } from "../utils/enums.js";
+import { comparePassword, generateJwt } from "../utils/utils.js";
 
 /*
   Los controladores son llamados desde las rutas
@@ -80,6 +81,33 @@ class UserController {
   }
   async getAllEmployees(req, res) {
     this.getAllUsersByRole(req, res, Roles.EMPLOYEE);
+  }
+
+  async login(req, res) {
+    const { email, password } = req.body;
+
+    try {
+      const user = await userService.getUserByEmail(email);
+      if (!email || !password) {
+        return res.status(400).json({ message: "Email and password are required." });
+      }
+    
+      const isMatch = await comparePassword(password, user.password);
+      if (!isMatch) {
+        return res.status(400).json({ message: "Invalid credentials" });
+      }
+
+      const token = generateJwt(user);
+      res.cookie("token", token, { httpOnly: true });
+      res.status(201).send({ message: "User logged in successfully." });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+
+  async logout(req, res) {
+    res.clearCookie("token", { path: "/" });
+    res.status(200).send({ message: "User has been log out." });
   }
 }
 
