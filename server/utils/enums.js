@@ -1,4 +1,7 @@
 export const Roles = {
-  STUDENT: "student",
-  TEACHER: "teacher",
+  MANAGER: "manager", //Gerente
+  SUPERVISOR: "supervisor", //Encargado
+  HR: "hr", //RRHH
+  SECRETARY: "secretary", //Secretaria
+  EMPLOYEE: "employee" //Empleados
 };
