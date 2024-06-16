@@ -1,19 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
+import NotFound from "./pages/NotFound";
+import { UserContext } from "./contexts";
 import "./App.css";
 
 const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
+
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-      </Routes>
-    </Router>
+    <UserContext.Provider value={{ isAuthenticated, setIsAuthenticated, user, setUser}}>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route element={<NotFound/>} />
+        </Routes>
+      </Router>
+    </UserContext.Provider>
   );
 };
 
