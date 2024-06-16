@@ -112,7 +112,7 @@ class UserController {
 
       const token = generateJwt(user);
       res.cookie("token", token, { httpOnly: true });
-      res.status(201).send({ message: "User logged in successfully." });
+      res.status(201).json({ id: user.id, role: user.role });
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
