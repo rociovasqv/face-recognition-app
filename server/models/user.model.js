@@ -1,6 +1,5 @@
 import { Schema, model } from "mongoose";
-import { Roles } from "../utils/enums.js";
-import bcrypt from "bcryptjs";
+import { Roles } from "../utils/constants.js";
 import validator from "validator";
 
 const userSchema = new Schema({
