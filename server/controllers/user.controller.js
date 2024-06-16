@@ -1,5 +1,5 @@
 import userService from "../services/user.service.js";
-import { Roles } from "../utils/enums.js";
+import { Roles } from "../utils/constants.js";
 import { comparePassword, generateJwt } from "../utils/utils.js";
 
 /*
@@ -58,6 +58,15 @@ class UserController {
     }
   }
 
+  async getAllUsers(req, res){
+    try {
+      const users = await userService.getAllUsers();
+      res.status(200).json(users)
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+
   async getAllUsersByRole(req, res, role) {
     try {
       const users = await userService.getUsersByRole(role);
@@ -87,11 +96,15 @@ class UserController {
     const { email, password } = req.body;
 
     try {
-      const user = await userService.getUserByEmail(email);
       if (!email || !password) {
         return res.status(400).json({ message: "Email and password are required." });
       }
-    
+
+      const user = await userService.getUserByEmail(email);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
       const isMatch = await comparePassword(password, user.password);
       if (!isMatch) {
         return res.status(400).json({ message: "Invalid credentials" });

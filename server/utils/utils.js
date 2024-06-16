@@ -22,3 +22,7 @@ export const generateJwt = (user) => {
     expiresIn: "1h",
   });
 };
+
+export const verifyJwt = (token) => {
+  return jwt.verify(token, VITE_SECRET_KEY);
+}

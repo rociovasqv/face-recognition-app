@@ -19,7 +19,7 @@ class UserService {
   }
 
   async getUserById(id) {
-    return await User.findById(id);
+    return await User.findById(id).select("-password");
   }
 
   async getUserByEmail(email) {
@@ -27,7 +27,11 @@ class UserService {
   }
 
   async getUsersByRole(role) {
-    return await User.find({ role });
+    return await User.find({ role }).select("-password");
+  }
+
+  async getAllUsers() {
+    return await User.find({}).select("-password");
   }
 
   async updateUser(userId, userData) {

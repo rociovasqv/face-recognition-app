@@ -1,24 +1,24 @@
-import jwt from "jsonwebtoken";
-import { VITE_SECRET_KEY } from "../config";
+import { Roles } from "../utils/constants";
+import { verifyJwt } from "../utils/utils";
 
 export const authenticateToken = async (req, res, next) => {
   const token = req.cookies.token;
-  if (!token) return res.status(403).json("You need to log in to access");
+  if (!token)
+    return res.status(403).json({ message: "You need to log in to access" });
 
-  jwt.verify(token, VITE_SECRET_KEY, (err, decoded) => {
-    if (err) {
-      return res.status(401).json("Failed to authenticate token");
-    }
-
+  try {
+    const decoded = verifyJwt(token);
     req.user = decoded;
     next();
-  });
+  } catch (err) {
+    return res.status(401).json({ message: "Failed to authenticate token" });
+  }
 };
 
-export const authorize = (roles) => {
+export const authorize = (roles = [Roles.MANAGER, Roles.SUPERVISOR, Roles.HR]) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
-      return res.status(403).json("Access denied. You do not have permission to access this resource.");
+      return res.status(403).json({ message: "Access denied. You do not have permission to access this resource." });
     }
     next();
   };
