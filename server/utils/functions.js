@@ -1,5 +1,8 @@
 import bcrypt from "bcryptjs";
 import { VITE_SECRET_KEY } from "../config/index.js";
+import { fileURLToPath } from "url";
+import path from "path";
+import multer from "multer";
 
 export const generateDefaultPassword = (firstName, lastName, dni) => {
   const dniLastThreeDigits = dni.slice(-3);
@@ -25,4 +28,19 @@ export const generateJwt = (user) => {
 
 export const verifyJwt = (token) => {
   return jwt.verify(token, VITE_SECRET_KEY);
+};
+
+export const createUpload = () => {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+
+  const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, path.join(__dirname, '..', 'uploads'));
+    },
+    filename: (req, file, cb) => {
+      cb(null, `${Date.now()}-${file.originalname}`);
+    },
+  });
+  return multer({ storage });
 }

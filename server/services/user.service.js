@@ -1,5 +1,7 @@
 import User from "../models/user.model.js";
-import { encryptPassword, generateDefaultPassword } from "../utils/utils.js";
+import { Roles } from "../utils/constants.js";
+import { encryptPassword, generateDefaultPassword } from "../utils/functions.js";
+
 /*
     Los servicios son llamados desde el controlador
     Acá es donde deberia estar toda la lógica de negocio
@@ -8,7 +10,6 @@ import { encryptPassword, generateDefaultPassword } from "../utils/utils.js";
     a medida que vayamos codificando vamos a darnos cuenta que necesitamos y que no
     son más ideas y ejemplos que otra cosa
 */
-
 class UserService {
   async createUser(userData) {
     const user = new User(userData);
@@ -44,6 +45,14 @@ class UserService {
     return await User.findByIdAndDelete(userId).exec();
   }
 
+  async getStoredFaceImages() {
+    const desiredRoles = [Roles.EMPLOYEE, Roles.SECRETARY];
+    const users = await User.find({ role: { $in: desiredRoles } }, { _id: 1, faceImage: 1 }).lean();
+    return users.map(user => ({
+      id: user._id.toString(),
+      imagePath: user.faceImage
+    }));
+  }
 }
 
 export default new UserService();
