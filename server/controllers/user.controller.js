@@ -1,6 +1,6 @@
 import userService from "../services/user.service.js";
 import { Roles } from "../utils/constants.js";
-import { comparePassword, generateJwt } from "../utils/utils.js";
+import { comparePassword, generateJwt } from "../utils/functions.js";
 
 /*
   Los controladores son llamados desde las rutas
