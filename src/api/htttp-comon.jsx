@@ -1,12 +1,24 @@
-import axios from 'axios';
-import { PORT_BACKEND } from '../data/constants';
+import axios from "axios";
+import { BASE_URL_BACKEND } from "../data/constants";
 
-const instance = axios.create({
-  baseURL: `http://localhost:${PORT_BACKEND}/api`,
-  headers: {
-    "Content-type": "application/json"
-  },
-  withCredentials: true
-});
+const defaultHeaders = {
+  "Content-Type": "application/json",
+  withCredentials: true,
+};
 
-export default instance;
+export const getAxiosInstance = (isFileUpload = false) => {
+  if (isFileUpload) {
+    return axios.create({
+      baseURL: BASE_URL_BACKEND,
+      headers: {
+        ...defaultHeaders,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  } else {
+    return axios.create({
+      baseURL: BASE_URL_BACKEND,
+      headers: defaultHeaders,
+    });
+  }
+};
