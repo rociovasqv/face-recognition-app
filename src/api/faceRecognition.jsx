@@ -1,7 +1,7 @@
-import { getAxiosInstance } from "./htttp-comon";
+import { photoInstance } from "./htttp-comon";
 
 const baseUrl = "/face-recognition";
-const http = getAxiosInstance(true);
+const http = photoInstance;
 
 class FaceRecognition {
   async recognizeFace(photo) {

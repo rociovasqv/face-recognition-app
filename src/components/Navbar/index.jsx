@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { UserContext } from "../../contexts";
 import './styles.css';
+import userService from "../../api/user";
 
 const Navbar = () => {
   const { isAuthenticated, setIsAuthenticated } = useContext(UserContext);
