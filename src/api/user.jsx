@@ -1,6 +1,7 @@
-import http from "./htttp-comon";
+import { getAxiosInstance } from "./htttp-comon";
 
 const baseUrl = "/user";
+const http = getAxiosInstance();
 
 class UserService {
   async login(data) {
