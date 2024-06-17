@@ -1,5 +1,5 @@
 import { Roles } from "../utils/constants.js";
-import { verifyJwt } from "../utils/utils.js";
+import { verifyJwt } from "../utils/functions.js";
 
 export const authenticateToken = async (req, res, next) => {
   const token = req.cookies.token;

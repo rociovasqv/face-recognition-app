@@ -1,8 +1,9 @@
 import express from "express";
 import userRoutes from "./routes/user.route.js";
-import { loadModels } from "./services/faceRecognition.service.js";
+import faceRecognitionRoutes from "./routes/faceRecognition.route.js";
+import faceRecognitionService from "./services/faceRecognition.service.js";
 import cookieParser from "cookie-parser";
-import { corsOptions } from "./utils/constants.js"
+import { corsOptions } from "./utils/constants.js";
 import cors from "cors";
 
 const app = express();
@@ -11,7 +12,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(cors(corsOptions));
 
-loadModels()
+faceRecognitionService.loadModels()
   .then(() => {
     console.log("Face recognition models has been loaded");
   })
@@ -21,5 +22,6 @@ loadModels()
   });
 
 app.use("/api/user", userRoutes);
+app.use("/api/face-recognition", faceRecognitionRoutes);
 
 export default app;
