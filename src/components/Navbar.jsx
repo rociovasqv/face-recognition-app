@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import './Navbar.css';
+import { Button } from "react-bootstrap";
 
 
  // Importar los componentes de react-bootstrap
@@ -24,16 +25,15 @@ const Navbar = () => {
         
         <li>
           <Link to="/">Home</Link>
-          
         </li>
         {isLoggedIn ? (
            <li>
-           <button onClick={handleLogout}>Logout</button>
+           <Button type="button" className="btn btn-outline-light" onClick={handleLogout}>Logout</Button>
          </li>
         ) : (
         <li>
           <Link to="/login">
-          <button onClick={handleLogin}>Login</button>
+          <Button type="button" className="btn btn-outline-light" onClick={handleLogin}>Login</Button>
           </Link>
         </li>
         )}

@@ -1,5 +1,6 @@
 import React from 'react';
-import Videocam from "../components/Videocam.jsx"
+import Videocam from "../components/Videocam.jsx";
+import "../styles/home.css";
 
 function Home() {
   return (
