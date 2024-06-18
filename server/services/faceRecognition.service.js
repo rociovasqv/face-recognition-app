@@ -51,17 +51,17 @@ class FaceRecognitionService {
   }
 
   async recognizeFace(queryImagePath) {
-    await loadModels();
+    await this.loadModels();
 
     // Obtener descriptores faciales de las imágenes almacenadas
     const storedImages = await userService.getStoredFaceImages();
-    const storedDescriptors = await loadStoredDescriptors(storedImages);
+    const storedDescriptors = await this.loadStoredDescriptors(storedImages);
 
     // Obtener descriptor facial de la nueva imagen
-    const queryDescriptor = await getQueryDescriptor(queryImagePath);
+    const queryDescriptor = await this.getQueryDescriptor(queryImagePath);
 
     // Comparar descriptores faciales
-    return compareDescriptors(queryDescriptor, storedDescriptors);
+    return this.compareDescriptors(queryDescriptor, storedDescriptors);
   }
 }
 

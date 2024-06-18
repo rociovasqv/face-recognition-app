@@ -1,8 +1,10 @@
-import { Schema, model } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 import { Roles } from "../utils/constants.js";
 import validator from "validator";
 
-const userSchema = new Schema({
+const usuarioSchema = Schema;
+
+const userSchema = new usuarioSchema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   email: {
@@ -21,4 +23,6 @@ const userSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-export default model("User", userSchema);
+const userModel = model("User", userSchema)
+
+export default userModel;
