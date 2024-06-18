@@ -8,6 +8,6 @@ dotenv.config({ path: resolve(__dirname, "../../.env.local") });
 
 const PORT = process.env.VITE_PORT_BACKEND || 5000;
 const VITE_MONGODB_URL = process.env.VITE_MONGODB_URL;
-const VITE_SECRET_KEY = process.env.VITE_PROCESS_KEY;
+const VITE_SECRET_KEY = process.env.VITE_SECRET_KEY;
 
 export { PORT, VITE_MONGODB_URL, VITE_SECRET_KEY };

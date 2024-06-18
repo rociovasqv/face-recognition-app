@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import { UserContext } from "./contexts";
 import "./App.css";
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -17,7 +15,6 @@ const App = () => {
 
   return (
     <UserContext.Provider value={{ isAuthenticated, setIsAuthenticated, user, setUser }}>
- 
       <Router>
       <Navbar/>
         <Routes>

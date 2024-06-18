@@ -3,6 +3,7 @@ import { VITE_SECRET_KEY } from "../config/index.js";
 import { fileURLToPath } from "url";
 import path from "path";
 import multer from "multer";
+import jwt from "jsonwebtoken";
 
 export const generateDefaultPassword = (firstName, lastName, dni) => {
   const dniLastThreeDigits = dni.slice(-3);

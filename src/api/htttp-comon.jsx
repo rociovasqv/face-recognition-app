@@ -1,12 +1,18 @@
 import axios from 'axios';
-import { PORT_BACKEND } from '../data/constants';
+import { BASE_URL_BACKEND } from '../data/constants';
 
-const instance = axios.create({
-  baseURL: `http://localhost:${PORT_BACKEND}/api`,
+export const jsonInstance = axios.create({
+  baseURL: BASE_URL_BACKEND,
   headers: {
     "Content-type": "application/json"
   },
   withCredentials: true
 });
 
-export default instance;
+export const photoInstance = axios.create({
+  baseURL: BASE_URL_BACKEND,
+  headers: {
+    'Content-Type': 'multipart/form-data'
+  },
+  withCredentials: true
+});

@@ -1,6 +1,7 @@
-import http from "./htttp-comon";
+import { jsonInstance } from "./htttp-comon";
 
 const baseUrl = "/user";
+const http = jsonInstance;
 
 class UserService {
   async login(data) {
