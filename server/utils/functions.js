@@ -5,13 +5,6 @@ import path from "path";
 import multer from "multer";
 import jwt from "jsonwebtoken";
 
-export const generateDefaultPassword = (firstName, lastName, dni) => {
-  const dniLastThreeDigits = dni.slice(-3);
-  const firstNameFirstTwoDigits = firstName.slice(0, 2);
-  const lastNameFirstTwoDigits = lastName.slice(0, 2);
-  return `${firstNameFirstTwoDigits}${lastNameFirstTwoDigits}${dniLastThreeDigits}`;
-};
-
 export const encryptPassword = async (password) => {
   const salt = await bcrypt.genSalt(10);
   return await bcrypt.hash(password, salt);

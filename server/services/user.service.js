@@ -1,6 +1,6 @@
 import User from "../models/user.model.js";
 import { Roles } from "../utils/constants.js";
-import { encryptPassword, generateDefaultPassword } from "../utils/functions.js";
+import { encryptPassword } from "../utils/functions.js";
 
 /*
     Los servicios son llamados desde el controlador
@@ -13,8 +13,7 @@ import { encryptPassword, generateDefaultPassword } from "../utils/functions.js"
 class UserService {
   async createUser(userData) {
     const user = new User(userData);
-    user.password = generateDefaultPassword(userData.firstName, userData.lastName, userData.dni);
-    user.password = await encryptPassword(user.password);
+    user.password = await encryptPassword(user.dni);
     await user.save();
     return user;
   }

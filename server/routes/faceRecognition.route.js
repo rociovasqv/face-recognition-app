@@ -9,8 +9,8 @@ const upload = createUpload();
 
 router.post(
   "/",
-  authenticateToken,
-  authorize([Roles.SECRETARY, Roles.EMPLOYEE]),
+  //authenticateToken,
+  //authorize([Roles.SECRETARY, Roles.EMPLOYEE]),
   upload.single("image"),
   faceRecognitionController.recognizeFace
 );
