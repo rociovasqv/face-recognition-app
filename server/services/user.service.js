@@ -13,7 +13,7 @@ import { encryptPassword } from "../utils/functions.js";
 class UserService {
   async createUser(userData) {
     const user = new User(userData);
-    user.password = await encryptPassword(user.dni);
+    user.password = await encryptPassword(userData.dni);
     await user.save();
     return user;
   }
