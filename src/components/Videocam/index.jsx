@@ -14,20 +14,34 @@ const Videocam = () => {
   const [img, setImg] = useState(null);
   const [recognitionResult, setRecognitionResult] = useState(null);
 
+//Realizar la captura de foto
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
     setImg(imageSrc);
   }, [webcamRef]);
 
+  //Función para convertir la imagen base 64 a Blob (objeto binario) para guardarla como un archivo al ser llamado por el backend, de forma temporal
+  const dataBlob = (dataURL) => {
+    const byteString = atob(dataURL.split(',')[1]);  //Permite descodificar una cadena de datos en base-64 a una cadena binaria
+    const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];  //Extraer el tipo MIME de la imagen (por ejemplo: image/jpg, image/png, etc)
+
+    const buffer = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(buffer);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([buffer], { type: mimeString });
+  };
+
   // Guardar la captura de foto
   const saveCaptured = async (image) => {
     try {
+      const formData = new FormData();
+      formData.append('image', dataBlob(image), 'capture.jpg');
+
       const response = await fetch('/api/saveCaptured', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ image }),
+        body: formData,
       });
       if (!response.ok) {
         throw new Error('Error saving captured image');

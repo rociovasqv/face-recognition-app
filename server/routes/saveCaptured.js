@@ -1,8 +1,8 @@
 import { Router } from "express";
-import saveCaptured from "../controllers/saveCaptured.controller";
+import { multer } from "../utils/functions"
 
 const router = Router();
 
-router.post('/saveCaptured', saveCaptured)
+router.post('/saveCaptured', multer.single('image'))
 
 export default router;
