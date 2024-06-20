@@ -11,8 +11,10 @@ import fs from 'node:fs/promises'
 class FaceRecognitionController {
   async recognizeFace(req, res) {
     try {
+      if (!req.file) {
+        return res.status(400).send({ error: "No file has been uploaded." });
+      }
       const queryImagePath = req.file.path; // Ruta de la imagen subida
-
       const userId = await faceRecognitionService.recognizeFace(queryImagePath);
 
       // Responde al cliente con el ID del usuario o un mensaje de no coincidencia

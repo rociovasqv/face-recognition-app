@@ -9,6 +9,9 @@ import { comparePassword, generateJwt } from "../utils/functions.js";
 */
 
 class UserController {
+
+  //TO DO: SI EL ROL ES SECRETARY O EMPLOYEE, SUBIR IMAGEN A LA CARPETA FACES CON EL ID CORRESPONDIENTE DEL USUARIO DE MONGODB
+  // YA NO VAMOS A GUARDARLAS EN LA DB A LAS FOTOS PARA COMPARARLAS
   async createUser(req, res) {
     try {
       let newUser = await userService.createUser(req.body);

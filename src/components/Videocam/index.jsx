@@ -1,6 +1,7 @@
 import Webcam from "react-webcam";
 import { useState, useRef, useCallback, useEffect } from "react";
 import faceRecognition from "../../api/faceRecognition";
+import { dataURLToBlob } from "blob-util";
 
 const Videocam = () => {
   const videoConstraints = {
@@ -17,42 +18,23 @@ const Videocam = () => {
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
     setImg(imageSrc);
+    recognizeFace(imageSrc);
   }, [webcamRef]);
 
-  // Guardar la captura de foto
-  const saveCaptured = async (image) => {
-    try {
-      const response = await fetch('/api/saveCaptured', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ image }),
-      });
-      if (!response.ok) {
-        throw new Error('Error saving captured image');
-      }
-      console.log('Capture history saved successfully');
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
-
   // Llamar a la api de reconocimiento facial con useEffect
-  useEffect(() => {
-    const recognizeFace = async () => {
-      if (img) {
+    const recognizeFace = async (imageSrc) => {
+      if (imageSrc) {
         try {
-          const res = await faceRecognition.recognizeFace({ image: img });
+        const blob = dataURLToBlob(imageSrc);
+        const formData = new FormData();
+        formData.append('image', blob, 'capture.jpg');
+          const res = await faceRecognition.recognizeFace(formData);
           setRecognitionResult(res.data);
-          await saveCaptured(img);
         } catch (error) {
           console.error("Error recognizing face:", error);
         }
       }
     };
-    recognizeFace();
-  }, [img]);
 
   return (
     <div>
