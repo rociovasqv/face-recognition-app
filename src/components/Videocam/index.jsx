@@ -1,6 +1,7 @@
 import Webcam from "react-webcam";
 import { useState, useRef, useCallback, useEffect } from "react";
 import faceRecognition from "../../api/faceRecognition";
+import { dataURLToBlob } from "blob-util";
 
 const Videocam = () => {
   const videoConstraints = {
@@ -18,8 +19,10 @@ const Videocam = () => {
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
     setImg(imageSrc);
+    recognizeFace(imageSrc);
   }, [webcamRef]);
 
+<<<<<<< HEAD
   //Función para convertir la imagen base 64 a Blob (objeto binario) para guardarla como un archivo al ser llamado por el backend, de forma temporal
   const dataBlob = (dataURL) => {
     const byteString = atob(dataURL.split(',')[1]);  //Permite descodificar una cadena de datos en base-64 a una cadena binaria
@@ -52,21 +55,22 @@ const Videocam = () => {
     }
   };
 
+=======
+>>>>>>> b80408dda07f1aa406d3988848a1f8de38a7d79c
   // Llamar a la api de reconocimiento facial con useEffect
-  useEffect(() => {
-    const recognizeFace = async () => {
-      if (img) {
+    const recognizeFace = async (imageSrc) => {
+      if (imageSrc) {
         try {
-          const res = await faceRecognition.recognizeFace({ image: img });
+        const blob = dataURLToBlob(imageSrc);
+        const formData = new FormData();
+        formData.append('image', blob, 'capture.jpg');
+          const res = await faceRecognition.recognizeFace(formData);
           setRecognitionResult(res.data);
-          await saveCaptured(img);
         } catch (error) {
           console.error("Error recognizing face:", error);
         }
       }
     };
-    recognizeFace();
-  }, [img]);
 
   return (
     <div>
