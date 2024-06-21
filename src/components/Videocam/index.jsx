@@ -1,7 +1,8 @@
+import React, { useState, useRef, useCallback } from "react";
 import Webcam from "react-webcam";
-import { useState, useRef, useCallback, useEffect } from "react";
 import faceRecognition from "../../api/faceRecognition";
 import { dataURLToBlob } from "blob-util";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Videocam = () => {
   const videoConstraints = {
@@ -15,78 +16,45 @@ const Videocam = () => {
   const [img, setImg] = useState(null);
   const [recognitionResult, setRecognitionResult] = useState(null);
 
-//Realizar la captura de foto
+  // Realizar la captura de foto
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
     setImg(imageSrc);
     recognizeFace(imageSrc);
   }, [webcamRef]);
 
-<<<<<<< HEAD
-  //Función para convertir la imagen base 64 a Blob (objeto binario) para guardarla como un archivo al ser llamado por el backend, de forma temporal
-  const dataBlob = (dataURL) => {
-    const byteString = atob(dataURL.split(',')[1]);  //Permite descodificar una cadena de datos en base-64 a una cadena binaria
-    const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];  //Extraer el tipo MIME de la imagen (por ejemplo: image/jpg, image/png, etc)
-
-    const buffer = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(buffer);
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([buffer], { type: mimeString });
-  };
-
-  // Guardar la captura de foto
-  const saveCaptured = async (image) => {
-    try {
-      const formData = new FormData();
-      formData.append('image', dataBlob(image), 'capture.jpg');
-
-      const response = await fetch('/api/saveCaptured', {
-        method: 'POST',
-        body: formData,
-      });
-      if (!response.ok) {
-        throw new Error('Error saving captured image');
-      }
-      console.log('Capture history saved successfully');
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
-
-=======
->>>>>>> b80408dda07f1aa406d3988848a1f8de38a7d79c
-  // Llamar a la api de reconocimiento facial con useEffect
-    const recognizeFace = async (imageSrc) => {
-      if (imageSrc) {
-        try {
+  // Llamar a la api de reconocimiento facial
+  const recognizeFace = async (imageSrc) => {
+    if (imageSrc) {
+      try {
         const blob = dataURLToBlob(imageSrc);
         const formData = new FormData();
         formData.append('image', blob, 'capture.jpg');
-          const res = await faceRecognition.recognizeFace(formData);
-          setRecognitionResult(res.data);
-        } catch (error) {
-          console.error("Error recognizing face:", error);
-        }
+        const res = await faceRecognition.recognizeFace(formData);
+        setRecognitionResult(res.data);
+      } catch (error) {
+        console.error("Error recognizing face:", error);
       }
-    };
+    }
+  };
 
   return (
-    <div>
-      <div>
-        <Webcam
-          ref={webcamRef}
-          screenshotFormat="image/jpeg"
-          videoConstraints={videoConstraints}
-          height={400}
-          width={400}
-        />
-        <button onClick={capture}>Capture photo</button>
-      </div>
-      <div>
-        {img && <img src={img} alt="screenshot" />}
-        {img && <button onClick={() => setImg(null)}>Recapture</button>}
+    <div className="d-flex-wrap justify-content-center align-items-center vh-100">
+      <div className="text-center">
+        <div className="mb-3">
+          <Webcam
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            videoConstraints={videoConstraints}
+            height={400}
+            width={400}
+          />
+        </div>
+        <button className="btn btn-primary p-3 mb-3" onClick={capture}>Capture photo</button>
+        <div className="d-flex-wrap justify-content-center">
+          {img && <img src={img} alt="screenshot" className="img-thumbnail mb-4" />}
+        </div>
+        {img && <button className="btn btn-secondary p-3 mb-4" onClick={() => setImg(null)}>Recapture</button>}
       </div>
     </div>
   );

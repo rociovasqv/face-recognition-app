@@ -5,9 +5,14 @@ import "../styles/home.css";
 function Home() {
   return (
     <div>
+      
+      <div className='homeHeader'>
       <h1>Home</h1>
       <p>Bienvenido al Home!</p>
-      <Videocam />
+      </div>
+      <div className='homeBody'>
+      <Videocam/>
+      </div>
     </div>
   );
 }
