@@ -1,7 +1,9 @@
-import React from "react";
-import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
 
-export default function Login() {
+import { Col, Button, Row, Container, Card, Form, Alert, Spinner } from "react-bootstrap";
+import loginHooks from "../hooks/useStateLogin";
+  
+const Login = () => {
+  const { email, setEmail, password, setPassword, submmitLogin, error, loading } = loginHooks();
   return (
     <Container>
       <Row className="vh-100 d-flex justify-content-center align-items-center">
@@ -12,18 +14,27 @@ export default function Login() {
               <div className="mb-3 mt-4 text-dark">
                 <h2 className="fw-bold mb-2 text-uppercase">Iniciar sesión</h2>
                 <p className=" mb-3 text-primary">¡Por favor, ingresa tu correo y contraseña!</p>
+                {error.error && <Alert variant="danger">{error.message}</Alert>}
 
-                <Form className="mb-3">
+                <Form className="mb-3" onSubmit={submmitLogin}>
                   <Form.Group className="mb-3" controlId="formEmail">
                     <Form.Label className="text-secondary">
                       Correo electrónico
                     </Form.Label>
-                    <Form.Control type="email" placeholder="Ingresa correo" />
+                    <Form.Control 
+                    type="email" 
+                    placeholder="Ingresa correo"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)} required/>
                   </Form.Group>
 
                   <Form.Group className="mb-3" controlId="formPassword">
                     <Form.Label className="text-secondary">Contraseña</Form.Label>
-                    <Form.Control type="password" placeholder="Ingresar clave" />
+                    <Form.Control 
+                    type="password" 
+                    placeholder="Ingresar clave" 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)} required/>
                   </Form.Group>
 
                   <div className="mb-3">
@@ -34,8 +45,8 @@ export default function Login() {
                     </p>
                   </div>
                   <div className="d-grid">
-                    <Button variant="primary" type="submit">
-                      Ingresar
+                    <Button variant="primary" type="submit" disabled={loading}>
+                    {loading ? <Spinner animation="border" size="sm" /> : "Ingresar"}
                     </Button>
                   </div>
                 </Form>
@@ -47,3 +58,5 @@ export default function Login() {
     </Container>
   );
 }
+
+export default Login;
