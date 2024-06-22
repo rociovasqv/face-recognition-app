@@ -4,6 +4,8 @@ import { fileURLToPath } from "url";
 import path from "path";
 import multer from "multer";
 import jwt from "jsonwebtoken";
+import sharp from 'sharp';
+import { createCanvas, loadImage } from 'canvas';
 
 export const encryptPassword = async (password) => {
   const salt = await bcrypt.genSalt(10);
@@ -37,4 +39,27 @@ export const createUpload = () => {
     },
   });
   return multer({ storage });
+}
+
+export const bufferToImage = async (buffer) => {
+  try {
+    if (!Buffer.isBuffer(buffer)) {
+      throw new Error('El parámetro no es un buffer válido.');
+    }
+
+    // Usa Sharp para convertir el buffer a un formato adecuado para canvas
+    const { data, info } = await sharp(buffer).raw().toBuffer({ resolveWithObject: true });
+
+    // Crea un objeto Image de canvas con los datos de la imagen
+    const image = createCanvas(info.width, info.height);
+    const ctx = image.getContext('2d');
+    const imageData = ctx.createImageData(info.width, info.height);
+    imageData.data.set(data);
+    ctx.putImageData(imageData, 0, 0);
+
+    return image; // Devuelve el objeto Image de canvas
+  } catch (err) {
+    console.error('Error al convertir la imagen:', err);
+    throw err; // Reenvía el error para manejarlo donde se llame a esta función
+  }
 }
