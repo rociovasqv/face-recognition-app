@@ -50,19 +50,6 @@ class UserService {
     return await User.findByIdAndDelete(userId).exec();
   }
 
-  async getStoredFaceImages() {
-    const desiredRoles = [Roles.EMPLOYEE, Roles.SECRETARY];
-    const users = await User.find({ role: { $in: desiredRoles } }, { _id: 1, faceImage: 1, firstName: 1, lastName: 1 }).lean();
-    
-    // Mapea los resultados para asegurar que faceImage sea un Buffer
-    const usersWithBufferImages = users.map(user => ({
-      _id: user._id, 
-      fullName: `${user.firstName} ${user.lastName}`,
-      faceImage: user.faceImage instanceof Buffer ? user.faceImage : Buffer.from(user.faceImage.buffer)
-    }));
-  
-    return usersWithBufferImages;
-  }
 
   async getStoredFaceImagesFromFacesFolder() {
     const files = fs.readdirSync(facesDir);
@@ -78,6 +65,19 @@ class UserService {
       };
     });
     return storedImages;
+  }
+
+  async getStoredDescriptors(){
+    const desiredRoles = [Roles.EMPLOYEE, Roles.SECRETARY];
+    const users = await User.find({ role: { $in: desiredRoles } }, { _id: 1, faceDescriptor: 1, firstName: 1, lastName: 1 }).lean();
+    return users.map(user => {
+      const descriptorArray = new Float32Array(user.faceDescriptor);
+      return {
+        _id: user._id,
+        fullName: `${user.firstName} ${user.lastName}`,
+        faceDescriptor: descriptorArray
+      };
+    });
   }
 }
 
