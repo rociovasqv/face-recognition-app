@@ -16,7 +16,7 @@ const loginHooks = () =>
           try {
             if (!email.trim()) throw {message: "Es obligatorio rellenar el campo"};
 
-            const response = await UserService.login({ email, password });
+            const response = await UserService.login( {email, password} );
             console.log("Login exitoso:", response.data);
             // Aquí puedes redirigir al usuario a otra página o realizar alguna acción adicional
           } catch (error) {

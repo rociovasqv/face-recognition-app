@@ -16,7 +16,7 @@ const Login = () => {
                 <p className=" mb-3 text-primary">¡Por favor, ingresa tu correo y contraseña!</p>
                 {error.error && <Alert variant="danger">{error.message}</Alert>}
 
-                <Form className="mb-3" onSubmit={submmitLogin}>
+                <Form className="mb-3" onSubmit={ submmitLogin }>
                   <Form.Group className="mb-3" controlId="formEmail">
                     <Form.Label className="text-secondary">
                       Correo electrónico
