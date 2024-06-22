@@ -1,7 +1,13 @@
 import User from "../models/user.model.js";
 import { Roles } from "../utils/constants.js";
 import { encryptPassword } from "../utils/functions.js";
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, resolve, join, parse } from 'path';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const facesDir = resolve(__dirname, "..", "faces");
 /*
     Los servicios son llamados desde el controlador
     Acá es donde deberia estar toda la lógica de negocio
@@ -44,13 +50,34 @@ class UserService {
     return await User.findByIdAndDelete(userId).exec();
   }
 
-  async getStoredFaceImages() {
+
+  async getStoredFaceImagesFromFacesFolder() {
+    const files = fs.readdirSync(facesDir);
+    const storedImages = files.map(file => {
+      const filePath = join(facesDir, file);
+      const fileBuffer = fs.readFileSync(filePath);
+      const fileName = parse(file).name;
+
+      return {
+        _id: fileName,
+        faceImage: fileBuffer,
+        fullName: fileName, // Assuming the file name represents the full name
+      };
+    });
+    return storedImages;
+  }
+
+  async getStoredDescriptors(){
     const desiredRoles = [Roles.EMPLOYEE, Roles.SECRETARY];
-    const users = await User.find({ role: { $in: desiredRoles } }, { _id: 1, faceImage: 1 }).lean();
-    return users.map(user => ({
-      id: user._id.toString(),
-      imagePath: user.faceImage
-    }));
+    const users = await User.find({ role: { $in: desiredRoles } }, { _id: 1, faceDescriptor: 1, firstName: 1, lastName: 1 }).lean();
+    return users.map(user => {
+      const descriptorArray = new Float32Array(user.faceDescriptor);
+      return {
+        _id: user._id,
+        fullName: `${user.firstName} ${user.lastName}`,
+        faceDescriptor: descriptorArray
+      };
+    });
   }
 }
 

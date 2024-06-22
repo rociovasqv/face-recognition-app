@@ -29,7 +29,7 @@ class FaceRecognitionController {
       res.status(500).json({ message: "Internal server error" });
     } finally {
       // Elimina la imagen subida después de procesar
-      fs.unlink(queryImagePath, (err) => {
+      fs.unlink(req?.file?.path, (err) => {
         if (err) {
           console.error("Failed to delete query image:", err);
         }
