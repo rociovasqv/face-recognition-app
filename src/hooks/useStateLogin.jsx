@@ -21,6 +21,7 @@ const loginHooks = () =>
             // Aquí puedes redirigir al usuario a otra página o realizar alguna acción adicional
           } catch (error) {
             console.error("Error en el login:", error);
+            setError({ error: true, message: error.message });
             // Manejo de errores (mostrar mensaje de error al usuario, etc.)
           }
           finally{
