@@ -6,7 +6,7 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import { UserContext } from "./contexts";
 //import Card from './components/info/Card';
-//import Table from './components/info/Tablas';
+
 import "./App.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -14,10 +14,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
- 
-
- 
-
   return (
     <UserContext.Provider value={{ isAuthenticated, setIsAuthenticated, user, setUser }}>
       <Router>
@@ -25,7 +21,8 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          
+          {/* <Route path="/Card" element={<Card person={{ name: 'Giselle', lastName: 'Ramirez', dni: '28643862' }} onStatusChange={handleStatusChange} />} /> */}
+          {/* <Route path="/table" element={<Table records={records} />} /> */}
           <Route path="*" element={<NotFound />} />
           
         </Routes>
