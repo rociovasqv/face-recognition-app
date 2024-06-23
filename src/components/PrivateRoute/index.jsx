@@ -1,3 +1,4 @@
+import { AuthContext } from "../../contexts/authContext";
 import NotFound from "../../pages/NotFound";
 
 export default function PrivateRoute({
@@ -8,7 +9,7 @@ export default function PrivateRoute({
   component: Component,
   ...rest
 }) {
-  const { user, isAuthenticated } = useContext(UserContext);
+  const { user, isAuthenticated } = useContext(AuthContext);
 
   if (isAuthenticated && role && !role.includes(user.role)) {
     return (
