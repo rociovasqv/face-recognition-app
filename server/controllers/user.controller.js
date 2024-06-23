@@ -95,6 +95,10 @@ class UserController {
     this.getAllUsersByRole(req, res, Roles.EMPLOYEE);
   }
 
+  async getAuthenticatedUser(req, res){
+    res.status(200).json(req.user);
+  }
+
   async login(req, res) {
     const { email, password } = req.body;
 

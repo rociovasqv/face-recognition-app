@@ -10,6 +10,7 @@ const router = Router();
 
 router.post("/login", userController.login);
 router.post("/logout", authenticateToken, userController.logout);
+router.get("/auth/user", authenticateToken, userController.getAuthenticatedUser);
 
 router.post("/", authenticateToken, authorize, userController.createUser);
 router.get("/:id", authenticateToken, authorize, userController.getUserById);
