@@ -3,7 +3,6 @@ import { Col, Button, Row, Container, Card, Form, Alert, Spinner } from "react-b
 import loginHooks from "../hooks/useStateLogin";
 import { useNavigate } from "react-router-dom";
 
-  
 const Login = () => {
   const { email, setEmail, password, setPassword, submmitLogin, error, loading } = loginHooks();
   const navigate = useNavigate();
@@ -13,7 +12,7 @@ const Login = () => {
       e.preventDefault();
       try {
         await submmitLogin(e);
-        navigate('/home'); // Redirige a la página de inicio)
+        navigate('/home'); // Redirige a la página de inicio
       } catch (err) {
         console.error("Error en el login:", err);
         navigate('/not-found', { state: { isErrorRole: false, message: err.message } });
