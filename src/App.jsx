@@ -9,6 +9,7 @@ import { UserContext } from "./contexts";
 
 import "./App.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
+// import { Card } from "react-bootstrap";
 
 
 const App = () => {
@@ -21,7 +22,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          {/* <Route path="/Card" element={<Card person={{ name: 'Giselle', lastName: 'Ramirez', dni: '28643862' }} onStatusChange={handleStatusChange} />} /> */}
+          {/* <Route path="/" component={Card} /> */}
           {/* <Route path="/table" element={<Table records={records} />} /> */}
           <Route path="*" element={<NotFound />} />
           

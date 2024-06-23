@@ -1,0 +1,17 @@
+EN EL COMPONENTE APP(deberia agregar una funcion de estado persona, si no se marca presente automaticamente queda ausente):
+  const [records, setRecords] = useState([]);
+
+  const handleStatusChange = (person, status) => {
+    setRecords((prevRecords) => {
+      const existingRecordIndex = prevRecords.findIndex(record => record.dni === person.dni);
+      if (existingRecordIndex !== -1) {
+        const updatedRecords = [...prevRecords];
+        updatedRecords[existingRecordIndex].status = status;
+        return updatedRecords;
+      } else {
+        return [...prevRecords, { ...person, status }];
+      }
+    });
+  };
+
+  const person = { name: 'Giselle', lastName: 'Ramirez', dni: '28643862' };
