@@ -5,6 +5,7 @@ import faceRecognitionService from "./services/faceRecognition.service.js";
 import cookieParser from "cookie-parser";
 import { corsOptions } from "./utils/constants.js";
 import cors from "cors";
+import { seedUsers } from "./seeds.js";
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -21,6 +22,7 @@ faceRecognitionService.loadModels()
     process.exit(1);
   });
 
+//seedUsers();
 app.use("/api/user", userRoutes);
 app.use("/api/face-recognition", faceRecognitionRoutes);
 
