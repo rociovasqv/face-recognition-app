@@ -36,7 +36,7 @@ const useEmployees = () =>
                     console.error('Error al eliminar el usuario:', err);
                    }
                 }
-            return { employees, setEmployees, loading, setLoading, error, setError, deleteEmployee };   
+            return { employees, loading, setLoading, error, setError, deleteEmployee };   
     }
 
     export default useEmployees;

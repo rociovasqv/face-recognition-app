@@ -1,8 +1,8 @@
-import React from "react";
-import { Table } from "react-bootstrap";
+import React from 'react';
 
-const Table = ({ records }) => {
-  return (
+ //Tabla de asistencia con el estado de presente (Eve)
+ const Table = ({ records }) => {
+   return (
     <table className="table">
       <thead>
         <tr>

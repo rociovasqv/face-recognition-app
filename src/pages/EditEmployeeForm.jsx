@@ -5,14 +5,14 @@ import { Roles } from "../data/constants";
 
 const EditEmployee = () => {
   const navigate = useNavigate();
-  const { employee, setEmployee, loading, setLoading, error, submitEdit } = editEmployeeHooks();
+  const { employee, setEmployee, loading, setLoading, error, setError, submitEdit } = editEmployeeHooks();
 
   const onsubmitEdit = async (e) =>
     {
         e.preventDefault();
         try {
           await submitEdit(e);
-          navigate('/employees'); // Redirige a la tabla de empleado actualizado
+          navigate('/employees');
         } catch (err) {
             setError({ error: true, message: err.response?.data?.message || "Error al actualizar" });
             setLoading(false);
@@ -24,7 +24,7 @@ const EditEmployee = () => {
     setEmployee({ ...employee, [e.target.name]: e.target.value });
   }
 
-  if (loading) return <Spinner animation="border" />;
+  if ( loading || !employee ) return <Spinner animation="border" />;
 
   return (
     <Container>
