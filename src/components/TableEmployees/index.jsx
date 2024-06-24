@@ -38,13 +38,13 @@ const TableEmployees = () => {
               <td>{employee.role}</td>
               <td>
                 <Button
-                  color="primary"
+                className="btn-primary"
                   onClick={() => navigate(`/edit-employee/${employee._id}`)}
                 >
                   Editar
                 </Button>{" "}
                 <Button
-                  color="danger"
+                  className="btn-danger"
                   onClick={() => deleteEmployee(employee._id)}
                 >
                   Eliminar

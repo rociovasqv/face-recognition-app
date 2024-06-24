@@ -25,7 +25,7 @@ const App = () => {
           <Route path="/attendance" element={<Attendance />} />
           <Route path="/employees" element={<Employees />} />
           <Route path="/create-employee" element={<CreateEmployee />} />
-          <Route path="/edit-employee/:_id" element={<EditEmployee />} />
+          <Route path="/edit-employee/:id" element={<EditEmployee />} />
         </Routes>
       </Router>
     </AuthProvider>
