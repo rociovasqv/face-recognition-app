@@ -4,15 +4,15 @@ import loginHooks from "../hooks/useStateLogin";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { email, setEmail, password, setPassword, submmitLogin, error, loading } = loginHooks();
+  const { email, setEmail, password, setPassword, submitLogin, error, loading } = loginHooks();
   const navigate = useNavigate();
   
-  const onsubmitLogin = async (e) =>
+  const onSubmitLogin = async (e) =>
     {
       e.preventDefault();
       try {
-        await submmitLogin(e);
-        navigate('/home'); // Redirige a la página de inicio
+        await submitLogin(e);
+        navigate("/");
       } catch (err) {
         console.error("Error en el login:", err);
         navigate('/not-found', { state: { isErrorRole: false, message: err.message } });
@@ -31,7 +31,7 @@ const Login = () => {
                 <p className=" mb-3 text-primary">¡Por favor, ingresa tu correo y contraseña!</p>
                 {error.error && <Alert variant="danger">{error.message}</Alert>}
 
-                <Form className="mb-3" onSubmit={ onsubmitLogin }>
+                <Form className="mb-3" onSubmit={onSubmitLogin}>
                   <Form.Group className="mb-3" controlId="formEmail">
                     <Form.Label className="text-secondary">
                       Correo electrónico
