@@ -21,7 +21,7 @@ const EditEmployee = () => {
     }
 
   const onchangeEdit = (e) => {
-    setEmployee({ ...employee, [e.target.name]: e.target.value });
+    setEmployee({ ...employee, [e.target.firstName]: e.target.value });
   }
 
   if (loading) return <Spinner animation="border" />;

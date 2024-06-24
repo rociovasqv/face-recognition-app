@@ -7,13 +7,13 @@ const editEmployeeHooks = () =>
         const [employee, setEmployee] = useState(null);
         const [loading, setLoading] = useState(false);
         const [error, setError] = useState({ error: false, message: "" });
-        const { id } = useParams();
+        const { _id } = useParams();
         
         useEffect(() => {
             const getOneEmployee = async () => {
                 setLoading(true);
             try {
-                const res = await UserService.getUserById(id);
+                const res = await UserService.getUserById(_id);
                 setEmployee(res.data);
                 setLoading(false);
             } catch (err) {
@@ -22,14 +22,14 @@ const editEmployeeHooks = () =>
             }
             };
             getOneEmployee();
-        }, [id]);
+        }, [_id]);
 
         const submitEdit = async (e) => {
             setLoading(true);
             setError({ error: false, message: "" });
 
             try {
-                await UserService.updateUser(id, employee);
+                await UserService.updateUser(_id, employee);
               } catch(err) {
                 setError({ error: true, message: err.response?.data?.message || "Error al actualizar usuario" });
                 setLoading(false);

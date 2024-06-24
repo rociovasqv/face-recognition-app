@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 const TableEmployees = () => {
   const { employees, setEmployees, loading, error, deleteEmployee } = useEmployees();
   const navigate = useNavigate();
+  console.log(employees)
 
   return (
     <div>
@@ -25,25 +26,26 @@ const TableEmployees = () => {
             <th>Nombre</th>
             <th>Email</th>
             <th>Role</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           {employees.map((employee) => (
-            <tr key={employee.id}>
-              <td>{employee.id}</td>
-              <td>{employee.name}</td>
+            <tr key={employee._id}>
+              <td>{employee._id}</td>
+              <td>{`${employee.firstName} ${employee.lastName}`}</td>
               <td>{employee.email}</td>
               <td>{employee.role}</td>
               <td>
                 <Button
                   color="primary"
-                  onClick={() => navigate(`/edit-employee/${employee.id}`)}
+                  onClick={() => navigate(`/edit-employee/${employee._id}`)}
                 >
                   Editar
                 </Button>{" "}
                 <Button
                   color="danger"
-                  onClick={() => deleteEmployee(employee.id)}
+                  onClick={() => deleteEmployee(employee._id)}
                 >
                   Eliminar
                 </Button>
