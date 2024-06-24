@@ -3,6 +3,10 @@ import Home from "./pages/Home";
 import Navbar from "./components/Navbar"; 
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
+import Employees from "./pages/Employees";
+import CreateEmployee from "./pages/createEmployeeForm";
+import EditEmployee from "./pages/EditEmployeeForm";
+import { UserContext } from "./contexts";
 import "./App.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { AuthProvider } from "./contexts/authContext";
@@ -18,6 +22,9 @@ const App = () => {
           {/* <Route path="/" component={Card} /> */}
           {/* <Route path="/table" element={<Table records={records} />} /> */}
           <Route path="*" element={<NotFound />} />
+          <Route path="/employees" element={<Employees />} />
+          <Route path="/create-employee" element={<CreateEmployee />} />
+          <Route path="/edit-employee/:id" element={<EditEmployee />} />
         </Routes>
       </Router>
     </AuthProvider>

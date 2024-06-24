@@ -17,7 +17,7 @@ router.get("/:id", authenticateToken, authorize, userController.getUserById);
 router.put("/:id", authenticateToken, authorize, userController.updateUser);
 router.delete("/:id", authenticateToken, authorize, userController.deleteUser);
 
-router.get("/all", authenticateToken, authorize, userController.getAllUsers);
+router.get("/all", userController.getAllUsers);
 router.get("/managers", authenticateToken, authorize, userController.getAllManagers);
 router.get("/supervisors", authenticateToken, authorize, userController.getAllSupervisors);
 router.get("/human-resources", authenticateToken, authorize, userController.getAllHumanResources);
