@@ -11,8 +11,12 @@ const Login = () => {
     {
       e.preventDefault();
       try {
-        await submmitLogin(e);
-        navigate('/home'); // Redirige a la página de inicio
+        const correctLogin =  await submmitLogin(e);
+        if (correctLogin)
+          {
+            navigate('/home'); // Redirige a la página de inicio
+          }
+       
       } catch (err) {
         console.error("Error en el login:", err);
         navigate('/not-found', { state: { isErrorRole: false, message: err.message } });

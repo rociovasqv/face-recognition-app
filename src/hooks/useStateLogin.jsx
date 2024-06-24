@@ -24,13 +24,29 @@ const loginHooks = () =>
             setUser(response.data);
             setIsAuthenticated(true); 
             console.log("Login exitoso:", response.data);
-            // Aquí puedes redirigir al usuario a otra página o realizar alguna acción adicional
+            return true; // Login exitoso
+    
           } catch (error) {
-            console.error("Error en el login:", error);
-            setError({ error: true, message: error.message || "Error desconocido" });
-            // Manejo de errores (mostrar mensaje de error al usuario, etc.)
-          }
-          finally{
+            if (error.response)
+              {
+                if (error.response.data.message.includes("correo"))
+                  {
+                    setError({ error: true, message: "Correo electrónico incorrecto" });
+                  }
+                else if (error.response.data.message.includes("contraseña")) 
+                    {
+                    setError({ error: true, message: "Contraseña incorrecta" });
+                  }
+                else {
+                  setError({ error: true, message: error.message || "Correo electrónico o contraseña incorrectos" });
+                }
+              }
+              else {
+                setError({ error: true, message: error.message || "Error desconocido" });
+              }
+              return false; //Login fallido
+            }
+            finally{
             setLoading(false)
           }
         }
