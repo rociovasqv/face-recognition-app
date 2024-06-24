@@ -7,7 +7,6 @@ import Attendance from "./pages/Attendance";
 import Employees from "./pages/Employees";
 import CreateEmployee from "./pages/createEmployeeForm";
 import EditEmployee from "./pages/EditEmployeeForm";
-import { UserContext } from "./contexts";
 import "./App.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { AuthProvider } from "./contexts/authContext";
