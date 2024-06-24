@@ -49,11 +49,7 @@ const loginHooks = () =>
             setLoading(false)
           }
         }
-<<<<<<< bug-login-fixes
-        return { email, setEmail, password, setPassword, submmitLogin, error, loading };
-=======
         return { email, setEmail, password, setPassword, submitLogin, error, loading }
->>>>>>> main
       };
-
+      
       export default loginHooks;

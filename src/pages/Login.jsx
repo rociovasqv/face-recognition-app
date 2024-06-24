@@ -18,8 +18,8 @@ const Login = () => {
         if (correctLogin)
           {
             navigate('/');
-
-      } catch (err) {
+      }}
+      catch (err) {
         console.error("Error en el login:", err);
         navigate('/not-found', { state: { isErrorRole: false, message: err.message } });
       }
