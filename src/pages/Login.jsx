@@ -2,21 +2,23 @@
 import { Col, Button, Row, Container, Card, Form, Alert, Spinner } from "react-bootstrap";
 import loginHooks from "../hooks/useStateLogin";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 
 const Login = () => {
-  const { email, setEmail, password, setPassword, submmitLogin, error, loading } = loginHooks();
+  const { email, setEmail, password, setPassword, submitLogin, error, loading } = loginHooks();
   const navigate = useNavigate();
+  const location = useLocation();
+  const errorMessage = location.state?.errorMessage;
   
-  const onsubmitLogin = async (e) =>
+  const onSubmitLogin = async (e) =>
     {
       e.preventDefault();
       try {
         const correctLogin =  await submmitLogin(e);
         if (correctLogin)
           {
-            navigate('/home'); // Redirige a la página de inicio
-          }
-       
+            navigate('/');
+
       } catch (err) {
         console.error("Error en el login:", err);
         navigate('/not-found', { state: { isErrorRole: false, message: err.message } });
@@ -25,6 +27,7 @@ const Login = () => {
 
   return (
     <Container>
+    {errorMessage && <p>{errorMessage}</p>}
       <Row className="vh-100 d-flex justify-content-center align-items-center">
         <Col md={8} lg={6} xs={12}>
           <div className="border border-3 border-primary"></div>
@@ -35,7 +38,7 @@ const Login = () => {
                 <p className=" mb-3 text-primary">¡Por favor, ingresa tu correo y contraseña!</p>
                 {error.error && <Alert variant="danger">{error.message}</Alert>}
 
-                <Form className="mb-3" onSubmit={ onsubmitLogin }>
+                <Form className="mb-3" onSubmit={onSubmitLogin}>
                   <Form.Group className="mb-3" controlId="formEmail">
                     <Form.Label className="text-secondary">
                       Correo electrónico
@@ -77,5 +80,4 @@ const Login = () => {
     </Container>
   );
 }
-
 export default Login;

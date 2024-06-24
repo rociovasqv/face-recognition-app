@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import UserService from "../api/user";
-import { useUser } from "../contexts";
-
+import { AuthContext } from "../contexts/authContext";
 
 const loginHooks = () =>
     {
@@ -9,9 +8,9 @@ const loginHooks = () =>
       const [password,setPassword] = useState("");
       const [error, setError] = useState({ error: false, message: "" });
       const [loading, setLoading] = useState(false);
-      const { setUser, setIsAuthenticated } = useUser();
+      const { setUser, setIsAuthenticated } = useContext(AuthContext);
   
-      const submmitLogin = async (e) =>
+      const submitLogin = async (e) =>
         {
           e.preventDefault();
           setLoading(true);
@@ -50,7 +49,11 @@ const loginHooks = () =>
             setLoading(false)
           }
         }
+<<<<<<< bug-login-fixes
         return { email, setEmail, password, setPassword, submmitLogin, error, loading };
+=======
+        return { email, setEmail, password, setPassword, submitLogin, error, loading }
+>>>>>>> main
       };
 
       export default loginHooks;

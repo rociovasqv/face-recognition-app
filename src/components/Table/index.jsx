@@ -3,11 +3,12 @@ import { Table, Button, Spinner } from 'react-bootstrap';
 import useEmployees from '../../hooks/useEmployees';
 import { useNavigate } from 'react-router-dom';
 
+//Tabla de los empleados
 const TableEmployees = () =>
     {
         const { employees, setEmployees, loading, error, deleteEmployee } = useEmployees();
         const navigate = useNavigate();
-
+      
         return (
             <div>
               <Button variant= "primary" disabled={loading} onClick={()=> navigate('/create-employee')}>
@@ -40,7 +41,33 @@ const TableEmployees = () =>
                 </tbody>
               </Table>
             </div>
-          )
-    }
+          );
+    };
 
+ //Tabla de asistencia con el estado de presente (Eve)
+ const Table = ({ records }) => {
+   return (
+    <table className="table">
+       <thead>
+         <tr>
+           <th>Nombre</th>
+           <th>Apellido</th>
+           <th>DNI</th>
+           <th>Estado</th>
+         </tr>
+       </thead>
+       <tbody>
+         {records.map((record, index) => (
+           <tr key={index}>
+             <td>{record.name}</td>
+             <td>{record.lastName}</td>
+             <td>{record.dni}</td>
+             <td>{record.status === 'present' ? '✔️' : '❌'}</td>
+           </tr>
+         ))}
+       </tbody>
+     </table>
+  );
+};
 export default TableEmployees;
+export default Table;

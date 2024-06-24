@@ -15,7 +15,7 @@ export const comparePassword = async (rawPassword, encryptedPassword) => {
 };
 
 export const generateJwt = (user) => {
-  jwt.sign({ id: user._id, role: user.role }, VITE_SECRET_KEY, {
+  return jwt.sign({ id: user._id, role: user.role }, VITE_SECRET_KEY, {
     expiresIn: "1h",
   });
 };
