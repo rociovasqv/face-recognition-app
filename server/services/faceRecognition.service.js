@@ -1,8 +1,8 @@
-import * as faceapi from "face-api.js";
-import canvas from "canvas";
-import { fileURLToPath } from "url";
-import { dirname, resolve } from "path";
-import userService from "./user.service.js";
+import * as faceapi from 'face-api.js';
+import canvas from 'canvas';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+import userService from './user.service.js';
 
 const { Canvas, Image, ImageData } = canvas;
 faceapi.env.monkeyPatch({ Canvas, Image, ImageData });
@@ -12,55 +12,54 @@ const weightsPath = resolve(__dirname, "..", "weights");
 
 class FaceRecognitionService {
   async loadModels() {
-    await faceapi.nets.ssdMobilenetv1.loadFromDisk(weightsPath);
+    await faceapi.nets.tinyFaceDetector.loadFromDisk(weightsPath);
     await faceapi.nets.faceLandmark68Net.loadFromDisk(weightsPath);
     await faceapi.nets.faceRecognitionNet.loadFromDisk(weightsPath);
   }
 
-  /* 
-    En el contexto de la detección y reconocimiento facial, un descriptor facial es un vector (una lista de números)
-    que representa las características únicas de un rostro. Estos vectores son generados por algoritmos de redes neuronales
-    y encapsulan información esencial sobre la apariencia del rostro, como la forma, las distancias entre características faciales (ojos, nariz, boca), y otros detalles.
-    Los descriptores faciales permiten comparar diferentes rostros de manera cuantitativa. Al calcular la distancia entre dos
-    descriptores faciales, podemos medir cuán similares son dos rostros. Una distancia menor indica mayor similitud.
-  */
-  async loadStoredDescriptors(storedImages) {
-    const descriptors = [];
-    for (const { id, imagePath } of storedImages) {
-      const image = await canvas.loadImage(imagePath);
-      const descriptor = await faceapi.computeFaceDescriptor(image);
-      descriptors.push({ id, descriptor });
-    }
-    return descriptors;
-  }
-
-  // Cargar y calcular el descriptor facial de la imagen que sube el usuario desde el frontend
-  async getQueryDescriptor(queryImagePath) {
-    const queryImage = await canvas.loadImage(queryImagePath);
-    return await faceapi.computeFaceDescriptor(queryImage);
-  }
+  getFaceDetectorOptions = () => {
+    return new faceapi.TinyFaceDetectorOptions({
+      inputSize: 160, // Puedes ajustar el tamaño de entrada según tus necesidades
+      scoreThreshold: 0.5 // Puedes ajustar el umbral de puntuación según tus necesidades
+    });
+  };
 
   compareDescriptors(queryDescriptor, storedDescriptors, threshold = 0.6) {
-    for (const { id, descriptor } of storedDescriptors) {
-      const distance = faceapi.euclideanDistance(queryDescriptor, descriptor);
+    console.log('Comparing descriptors...');
+    for (const { _id, faceDescriptor, fullName } of storedDescriptors) {
+      const distance = faceapi.euclideanDistance(queryDescriptor, faceDescriptor);
+      console.log(`Distance to user ${fullName}: ${distance}`);
       if (distance < threshold) {
-        return id; // Devolver el ID del usuario coincidente
+        console.log(`Match found with user ${fullName}`);
+        return _id;
       }
     }
-    return null; // No hay coincidencia
+    console.log('No match found.');
+    return null;
+  }
+
+  async getQueryDescriptor(queryImagePath) {
+    try {
+      const queryImage = await canvas.loadImage(queryImagePath);
+      const detection = await faceapi.detectSingleFace(queryImage, this.getFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptor();
+      if (!detection) {
+        console.error('No face detected in query image');
+        return null;
+      }
+      return detection.descriptor;
+    } catch (error) {
+      console.error('Error processing query image:', error);
+      throw error;
+    }
   }
 
   async recognizeFace(queryImagePath) {
-    await this.loadModels();
-
-    // Obtener descriptores faciales de las imágenes almacenadas
-    const storedImages = await userService.getStoredFaceImages();
-    const storedDescriptors = await this.loadStoredDescriptors(storedImages);
-
-    // Obtener descriptor facial de la nueva imagen
     const queryDescriptor = await this.getQueryDescriptor(queryImagePath);
+    if (!queryDescriptor) {
+      throw new Error('No face detected in query image');
+    }
 
-    // Comparar descriptores faciales
+    const storedDescriptors = await userService.getStoredDescriptors();
     return this.compareDescriptors(queryDescriptor, storedDescriptors);
   }
 }

@@ -2,20 +2,21 @@
 import { Col, Button, Row, Container, Card, Form, Alert, Spinner } from "react-bootstrap";
 import loginHooks from "../hooks/useStateLogin";
 import { useNavigate } from "react-router-dom";
-// import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 
-  
 const Login = () => {
   const { email, setEmail, password, setPassword, submmitLogin, error, loading } = loginHooks();
   const navigate = useNavigate();
+  const location = useLocation();
+  const errorMessage = location.state?.errorMessage;
   
   const onsubmitLogin = async (e) =>
     {
       e.preventDefault();
       try {
         await submmitLogin(e);
-        navigate('/home'); // Redirige a la página de inicio)
+        navigate('/home'); // Redirige a la página de inicio
       } catch (err) {
         console.error("Error en el login:", err);
         navigate('/not-found', { state: { isErrorRole: false, message: err.message } });
@@ -24,6 +25,7 @@ const Login = () => {
 
   return (
     <Container>
+        {errorMessage && <p>{errorMessage}</p>}
       <Row className="vh-100 d-flex justify-content-center align-items-center">
         <Col md={8} lg={6} xs={12}>
           <div className="border border-3 border-primary"></div>

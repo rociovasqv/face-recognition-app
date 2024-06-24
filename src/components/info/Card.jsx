@@ -1,37 +1,35 @@
-// // // import React, { useState } from 'react';
-// import { useHistory } from 'react-router-dom';
-// // import './card.css';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Correcto para v6
+import './card.css';
 
-// // // const Card = ({ person, onStatusChange }) => {
-// // //   const [errorMessage, setErrotMessage] =useState('');
-// // //   const history = useHistory();
+const Card = ({ person, onStatusChange }) => {
+  const [errorMessage, setErrorMessage] = useState(''); // Corrección de setErrotMessage a setErrorMessage
+  const navigate = useNavigate(); // Cambio de useHistory a useNavigate
 
-// // //   const handleRecognition = (isCorrest) => {
-// // //      if (isCorrect) {
-//       // Maneja el caso de "Correctos" aquí si es necesario
-//     } else {
-//         setErrorMessage('Datos incorrectos, vuelva a loguearse');
-//         history.push({
-//           pathname: '/login',
-//           state: { errorMessage: 'Datos incorrectos, vuelva a loguearse' }
-// // //   });
-//         }
-//     };
+  const handleRecognition = (isCorrect) => {
+    if (isCorrect) {
+      onStatusChange(person, 'present');
+    } else {
+      setErrorMessage('Datos incorrectos, vuelva a loguearse');
+      navigate('/login', {
+        state: { errorMessage: 'Datos incorrectos, vuelva a loguearse' },
+      });
+    }
+  };
 
-// // //   return (
-// // //     <div className="card">
-// // //       <h3>{name} {lastName}</h3>
-// // //       <p>DNI: {dni}</p>
-// // //       <div className={`status ${status}`}>
-// // //         {status === 'present' && <span>✔️ Presente</span>}
-// // //         {status === 'absent' && <span>❌ Ausente</span>}
-// // //       </div>
-// // //       los botones dan la funcionalidad que va a la tabla de presentismo. Vienen cuando dan el ok
-// // //       <button onClick={() => handleRecognition(true)}>Correctos</button>
-//       <button onClick={() => handleRecognition(false)}>Incorrecto</button>
-//       {errorMessage && <p>{errorMessage}</p>}
-// // //     </div>
-// // //   );
-// // // };
+  return (
+    <div className="card">
+      <h3>{person.name} {person.lastName}</h3>
+      <p>DNI: {person.dni}</p>
+      <div className={`status ${person.status}`}>
+        {person.status === 'present' && <span>✔️ Presente</span>}
+        {person.status === 'absent' && <span>❌ Ausente</span>}
+      </div>
+      <button onClick={() => handleRecognition(true)}>Correctos</button>
+      <button onClick={() => handleRecognition(false)}>Incorrecto</button>
+      {errorMessage && <p>{errorMessage}</p>}
+    </div>
+  );
+};
 
-// // export default Card;
+export default Card;

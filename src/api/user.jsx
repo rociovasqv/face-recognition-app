@@ -12,6 +12,10 @@ class UserService {
     return await http.post(`${baseUrl}/logout`);
   }
 
+  async getAuthenticatedUser(){
+    return await http.get(`${baseUrl}/auth/user`);
+  }
+
   async createUser(data) {
     return await http.post(`${baseUrl}/`, data);
   }
