@@ -2,10 +2,14 @@
 import { Col, Button, Row, Container, Card, Form, Alert, Spinner } from "react-bootstrap";
 import loginHooks from "../hooks/useStateLogin";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
+
 
 const Login = () => {
   const { email, setEmail, password, setPassword, submitLogin, error, loading } = loginHooks();
   const navigate = useNavigate();
+  const location = useLocation();
+  const errorMessage = location.state?.errorMessage;
   
   const onSubmitLogin = async (e) =>
     {
@@ -21,6 +25,7 @@ const Login = () => {
 
   return (
     <Container>
+        {errorMessage && <p>{errorMessage}</p>}
       <Row className="vh-100 d-flex justify-content-center align-items-center">
         <Col md={8} lg={6} xs={12}>
           <div className="border border-3 border-primary"></div>
