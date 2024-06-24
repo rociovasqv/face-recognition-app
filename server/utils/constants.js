@@ -12,3 +12,8 @@ export const Roles = {
   SECRETARY: "secretary", //Secretaria
   EMPLOYEE: "employee", //Empleados
 };
+
+export const Status = {
+  PRESENT: "present",
+  ABSENT: "absent"
+}

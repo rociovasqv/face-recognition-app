@@ -1,12 +1,22 @@
 import { createServer } from "http";
 import { PORT } from "./config/index.js";
-import { initializeDB } from "./config/init.js";
+import {
+  initializeDB,
+  initializeDailyAttendance,
+  initializeDailyAttendanceCron,
+  initializeFaceRecognitionModels,
+} from "./config/init.js";
 import app from "./app.js";
+import { seedUsers } from "./seeds.js";
 
 const server = createServer(app);
 
 initializeDB();
+initializeFaceRecognitionModels();
+initializeDailyAttendance();
+initializeDailyAttendanceCron();
+//seedUsers();
 
 server.listen(PORT, () => {
-  console.log("Server en vivo por el puerto: ", PORT);
+  console.log("Server live on PORT: ", PORT);
 });

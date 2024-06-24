@@ -12,9 +12,6 @@ const facesDir = resolve(__dirname, "..", "faces");
     Los servicios son llamados desde el controlador
     Acá es donde deberia estar toda la lógica de negocio
     Cada servicio debe tener un solo proposito
-    estos son algunos que se me ocurrieron que tal vez podamos usar
-    a medida que vayamos codificando vamos a darnos cuenta que necesitamos y que no
-    son más ideas y ejemplos que otra cosa
 */
 class UserService {
   async createUser(userData) {
@@ -36,6 +33,10 @@ class UserService {
     return await User.find({ role }).select("-password");
   }
 
+  async getUsersByRoles(roles) {
+    return await User.find({ role: { $in: roles } }).select("-password");
+  }
+
   async getAllUsers() {
     return await User.find({}).select("-password");
   }
@@ -49,7 +50,6 @@ class UserService {
   async deleteUser(userId) {
     return await User.findByIdAndDelete(userId).exec();
   }
-
 
   async getStoredFaceImagesFromFacesFolder() {
     const files = fs.readdirSync(facesDir);
