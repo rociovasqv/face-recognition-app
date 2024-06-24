@@ -3,10 +3,9 @@ import Home from "./pages/Home";
 import Navbar from "./components/Navbar"; 
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
-//import Card from './components/info/Card';
 import "./App.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import { AuthProvider } from "./contexts/authContext";
 
 const App = () => {
   return (
