@@ -34,7 +34,7 @@ const loginHooks = () =>
             setLoading(false)
           }
         }
-        return { email, setEmail, password, setPassword, submmitLogin, error, loading }
+        return { email, setEmail, password, setPassword, submmitLogin, error, loading };
       };
 
       export default loginHooks;
