@@ -6,13 +6,14 @@ import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
-import Card from './components/info/Card';
-import Table from './components/info/Table';
+import Card from './components/Card';
+import Table from './components/Table/index.jsx';
 
 import { AuthProvider } from "./contexts/authContext";
 import "./App.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+const App = () => {
   const [records, setRecords] = useState([
     { name: 'Giselle', lastName: 'Ramirez', dni: '28643862', status: 'absent' },
     { name: 'Andrea', lastName: 'Fernandez', dni: '28643662', status: 'absent' },
@@ -27,8 +28,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
     );
   };
 
-const person = { name: 'Giselle', lastName: 'Ramirez', dni: '28643862' };
-const App = () => {
+  const person = { name: 'Giselle', lastName: 'Ramirez', dni: '28643862' };
+
   return (
     <AuthProvider>
       <Router>
@@ -50,4 +51,3 @@ const App = () => {
 };
 
 export default App;
-
