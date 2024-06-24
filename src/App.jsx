@@ -1,6 +1,6 @@
+
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar"; 
 import Login from "./pages/Login";
@@ -13,9 +13,9 @@ import { AuthProvider } from "./contexts/authContext";
 import "./App.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const App = () => {
   const [records, setRecords] = useState([
-    { name: 'Juan', lastName: 'Pérez', dni: '12345678', status: 'absent' },
+    { name: 'Giselle', lastName: 'Ramirez', dni: '28643862', status: 'absent' },
+    { name: 'Andrea', lastName: 'Fernandez', dni: '28643662', status: 'absent' },
     // Otros registros
   ]);
 
@@ -27,8 +27,8 @@ const App = () => {
     );
   };
 
-  const person = { name: 'Juan', lastName: 'Pérez', dni: '12345678' };
-
+const person = { name: 'Giselle', lastName: 'Ramirez', dni: '28643862' };
+const App = () => {
   return (
     <AuthProvider>
       <Router>

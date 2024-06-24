@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Correcto para v6
-import './card.css';
+import './styles.css';
 
 const Card = ({ person, onStatusChange }) => {
   const [errorMessage, setErrorMessage] = useState(''); // Corrección de setErrotMessage a setErrorMessage
