@@ -1,5 +1,5 @@
 import React from "react";
-import TableEmployees from "../components/Table";
+import TableEmployees from "../components/TableEmployees";
 
 const Employees = () =>
     {
