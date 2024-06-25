@@ -3,15 +3,20 @@ import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
+
 import Employees from "./pages/Employees";
 import CreateEmployee from "./pages/createEmployeeForm";
 import EditEmployee from "./pages/EditEmployeeForm";
+
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+
 import { AuthProvider } from "./contexts/authContext";
 import Attendance from "./pages/Attendance";
 import AttendanceCamera from "./pages/AttendanceCamera";
 import PrivateRoute from "./components/PrivateRoute";
+
+// import AttendanceDetail from "./pages/AttendanceDetail";
 
 const App = () => {
   return (
@@ -55,6 +60,9 @@ const App = () => {
             }
           />
           <Route path="*" element={<NotFound />} />
+     
+          {/* <Route path="/ver-presentismo/:id" element={<AttendanceDetail />} /> */}
+      
         </Routes>
       </Router>
     </AuthProvider>
