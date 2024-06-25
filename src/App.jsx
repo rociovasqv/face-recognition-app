@@ -9,6 +9,7 @@ import EditEmployee from "./pages/EditEmployeeForm";
 import "./App.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { AuthProvider } from "./contexts/authContext";
+import Attendance from "./pages/Attendance";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
       <Navbar/>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/presentismo" element={<Attendance />} />
           <Route path="/login" element={<Login />} />
           {/* <Route path="/" component={Card} /> */}
           {/* <Route path="/table" element={<Table records={records} />} /> */}

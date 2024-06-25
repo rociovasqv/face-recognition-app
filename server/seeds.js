@@ -1,9 +1,9 @@
 import * as faceapi from 'face-api.js';
 import canvas from 'canvas';
 import { encryptPassword } from './utils/functions.js';
-import fs from 'fs';
 import path from 'path';
-import User from "./models/user.model.js"; 
+import User from "./models/user.model.js";
+import DailyAttendance from './models/dailyAttendance.model.js'; 
 import { fileURLToPath } from 'url';
 
 const { Canvas, Image, ImageData, createCanvasElement, createImageElement } = canvas;
@@ -49,7 +49,16 @@ const getFaceDetectorOptions = () => {
 
 export const seedUsers = async () => {
   await loadModels(modelsPath);
-  await User.deleteMany({});
+
+  const today = new Date();
+  const startOfDay = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate()
+  );
+  const dailyAttendance = await DailyAttendance.findOne({
+    date: { $gte: startOfDay },
+  });
 
   const usersData = [
     {
@@ -76,26 +85,59 @@ export const seedUsers = async () => {
       role: "secretary",
       faceImage: 'giselle.jpg'
     },
+    {
+      firstName: "Admin",
+      lastName: "Admin",
+      email: "admin@admin.com",
+      dni: "123456",
+      role: "manager"
+    },
+    {
+      firstName: "RRHH",
+      lastName: "RRHH",
+      email: "rrhh@rrhh.com",
+      dni: "123456",
+      role: "hr"
+    }
   ];
 
   for (const userData of usersData) {
     const defaultPassword = userData.dni;
     const hashedPassword = await encryptPassword(defaultPassword);
-    const faceImagePath = path.join(facesPath, userData.faceImage);
-    const faceDescriptor = await getFaceDescriptor(faceImagePath);
 
-    if (faceDescriptor) {
+    if(userData.role === "secretary" || userData.role === "employee"){
+      const faceImagePath = path.join(facesPath, userData.faceImage);
+      const faceDescriptor = await getFaceDescriptor(faceImagePath);
+      if (faceDescriptor) {
+        const newUser = new User({
+          ...userData,
+          faceDescriptor: Array.from(faceDescriptor),
+          password: hashedPassword,
+          createdAt: new Date(),
+        });
+  
+        await newUser.save();
+        console.log(`User ${userData.firstName} ${userData.lastName} created successfully`);
+        if (!dailyAttendance.attendanceRecords.some(user => user.userId.equals(savedUser._id))) {
+          dailyAttendance.attendanceRecords.push({ userId: savedUser._id, status: "absent" });
+        }
+      } else {
+        console.log(`No face detected for ${userData.firstName} ${userData.lastName}`);
+      }
+    } else {
       const newUser = new User({
         ...userData,
-        faceDescriptor: Array.from(faceDescriptor),
         password: hashedPassword,
         createdAt: new Date(),
       });
 
       await newUser.save();
       console.log(`User ${userData.firstName} ${userData.lastName} created successfully`);
-    } else {
-      console.log(`No face detected for ${userData.firstName} ${userData.lastName}`);
+      if (!dailyAttendance.attendanceRecords.some(user => user.userId.equals(savedUser._id))) {
+        dailyAttendance.attendanceRecords.push({ userId: savedUser._id, status: "absent" });
+      }
     }
   }
+
+  await dailyAttendance.save();
 };

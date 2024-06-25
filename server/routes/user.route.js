@@ -9,19 +9,16 @@ import { authenticateToken, authorize } from "../middleware/middlewares.js";
 const router = Router();
 
 router.post("/login", userController.login);
-router.post("/logout", authenticateToken, userController.logout);
-router.get("/auth/user", authenticateToken, userController.getAuthenticatedUser);
 
-router.post("/", authenticateToken, authorize, userController.createUser);
-router.get("/:id", authenticateToken, authorize, userController.getUserById);
-router.put("/:id", authenticateToken, authorize, userController.updateUser);
-router.delete("/:id", authenticateToken, authorize, userController.deleteUser);
+router.use(authenticateToken);
+router.post("/logout", userController.logout);
+router.get("/auth/user", userController.getAuthenticatedUser);
 
-router.get("/all", userController.getAllUsers);
-router.get("/managers", authenticateToken, authorize, userController.getAllManagers);
-router.get("/supervisors", authenticateToken, authorize, userController.getAllSupervisors);
-router.get("/human-resources", authenticateToken, authorize, userController.getAllHumanResources);
-router.get("/secretaries", authenticateToken, authorize, userController.getAllSecretaries);
-router.get("/employees", authenticateToken, authorize, userController.getAllEmployees);
+router.use(authorize())
+router.post("/", userController.createUser);
+router.get("/:id", userController.getUserById);
+router.put("/:id", userController.updateUser);
+router.delete("/:id", userController.deleteUser);
+router.get("/", userController.getAllUsers);
 
 export default router;
