@@ -3,7 +3,6 @@ import Home from "./pages/Home";
 import Navbar from "./components/Navbar"; 
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
-import Attendance from "./pages/Attendance";
 import Employees from "./pages/Employees";
 import CreateEmployee from "./pages/createEmployeeForm";
 import EditEmployee from "./pages/EditEmployeeForm";
