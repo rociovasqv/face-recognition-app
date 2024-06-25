@@ -1,6 +1,9 @@
 import userService from "../services/user.service.js";
-import { Roles } from "../utils/constants.js";
+import faceRecognitionService from "../services/faceRecognition.service.js";
+import dailyAttendanceService from "../services/dailyAttendance.service.js";
+import { Roles, Status } from "../utils/constants.js";
 import { comparePassword, generateJwt } from "../utils/functions.js";
+import fs from 'node:fs/promises'
 
 /*
   Los controladores son llamados desde las rutas
@@ -9,15 +12,41 @@ import { comparePassword, generateJwt } from "../utils/functions.js";
 */
 
 class UserController {
-
-  //TO DO: SI EL ROL ES SECRETARY O EMPLOYEE, SUBIR IMAGEN A LA CARPETA FACES CON EL ID CORRESPONDIENTE DEL USUARIO DE MONGODB
-  // YA NO VAMOS A GUARDARLAS EN LA DB A LAS FOTOS PARA COMPARARLAS
   async createUser(req, res) {
     try {
-      let newUser = await userService.createUser(req.body);
+      const formData = JSON.parse(req.body.data);
+      const { role } = formData;
+      if(role === Roles.SECRETARY || role === Roles.EMPLOYEE){
+        if(!req.file){
+          return res.status(400).send({ error: "No file has been uploaded." });
+        }
+        const queryImagePath = req.file.path;
+        const faceDescriptor = await faceRecognitionService.getQueryDescriptor(queryImagePath);
+        if (!faceDescriptor) {
+          return res.status(400).send({ error: "No face detected in query image." });
+        }
+        formData.faceDescriptor = Array.from(faceDescriptor)
+      }
+
+      let newUser = await userService.createUser(formData);
+      const today = new Date(); 
+      const existingDailyAttendance = await dailyAttendanceService.getByDate(today);
+      if (!existingDailyAttendance?.attendanceRecords?.some(user => user.userId.equals(newUser._id))) {
+        existingDailyAttendance.attendanceRecords.push({ userId: newUser._id, status: Status.ABSENT });
+      }
+
+      await dailyAttendanceService.update(existingDailyAttendance._id, existingDailyAttendance);
       res.status(201).json(newUser);
     } catch (error) {
       res.status(500).json({ message: error.message });
+    } finally {
+      if(req?.file){
+        fs.unlink(req?.file?.path, (err) => {
+          if (err) {
+            console.error("Failed to delete query image:", err);
+          }
+        });
+      }
     }
   }
 

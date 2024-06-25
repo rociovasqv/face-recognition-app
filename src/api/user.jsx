@@ -1,7 +1,8 @@
-import { jsonInstance } from "./htttp-comon";
+import { jsonInstance, photoInstance } from "./htttp-comon";
 
 const baseUrl = "/user";
 const http = jsonInstance;
+const httpPhotoInstance = photoInstance
 
 class UserService {
   async login(data) {
@@ -17,7 +18,7 @@ class UserService {
   }
 
   async createUser(data) {
-    return await http.post(`${baseUrl}/`, data);
+    return await httpPhotoInstance.post(`${baseUrl}/`, data);
   }
 
   async getUserById(id) {

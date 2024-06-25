@@ -10,7 +10,6 @@ class DailyAttendanceService {
       today.getMonth(),
       today.getDate()
     );
-
     const existingRecord = await DailyAttendance.findOne({
       date: { $gte: startOfDay },
     });
@@ -26,7 +25,7 @@ class DailyAttendanceService {
       }));
 
       const dailyAttendance = new DailyAttendance({
-        date: today,
+        date: startOfDay,
         attendanceRecords,
       });
 
@@ -47,14 +46,10 @@ class DailyAttendanceService {
 
   async getByDate(date) {
     const startOfDay = new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate()
+      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0)
     );
     const endOfDay = new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate() + 1
+      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59)
     );
 
     return await DailyAttendance.findOne({
@@ -80,19 +75,14 @@ class DailyAttendanceService {
   }
 
   async markUserPresent(date, userId) {
+    const today = new Date();
     const startOfDay = new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate()
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
     );
-    const endOfDay = new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate() + 1
-    );
-
     const dailyAttendance = await DailyAttendance.findOne({
-      date: { $gte: startOfDay, $lt: endOfDay },
+      date: { $gte: startOfDay },
     });
 
     if (dailyAttendance) {
