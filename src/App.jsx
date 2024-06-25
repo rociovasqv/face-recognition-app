@@ -12,6 +12,7 @@ import { AuthProvider } from "./contexts/authContext";
 import Attendance from "./pages/Attendance";
 import AttendanceCamera from "./pages/AttendanceCamera";
 import PrivateRoute from "./components/PrivateRoute";
+import AttendanceDetail from "./pages/AttendanceDetail";
 
 const App = () => {
   return (
@@ -27,6 +28,14 @@ const App = () => {
             element={
               <PrivateRoute>
                 <Attendance />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/ver-presentismo/:id"
+            element={
+              <PrivateRoute>
+                <AttendanceDetail />
               </PrivateRoute>
             }
           />

@@ -1,29 +1,40 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Table, Alert, Spinner } from "react-bootstrap";
+import attendanceHooks from '../../hooks/useAttendance';
 
- //Tabla de asistencia con el estado de presente (Eve)
- const Table = ({ records }) => {
-   return (
-    <table className="table">
+const AttendanceTable = () => {
+  const { attendanceRecords, loading, error } = attendanceHooks();
+  const navigate = useNavigate();
+
+  const rowClick = (id) => {
+    navigate(`/ver-presentismo/${id}`);
+  };
+
+  if (loading) {
+    return <Spinner animation="border" role="status"></Spinner>;
+  }
+
+  if (error) {
+    return <Alert variant="danger">{error}</Alert>;
+  }
+
+  return (
+    <Table>
       <thead>
         <tr>
-          <th>Nombre</th>
-          <th>Apellido</th>
-          <th>DNI</th>
-          <th>Estado</th>
+          <th>Fecha</th>
         </tr>
       </thead>
       <tbody>
-        {records.map((record, index) => (
-          <tr key={index}>
-            <td>{record.name}</td>
-            <td>{record.lastName}</td>
-            <td>{record.dni}</td>
-            <td>{record.status === "present" ? "✔️" : "❌"}</td>
+        {attendanceRecords.map((record) => (
+          <tr key={record._id} onClick={() => rowClick(record._id)} style={{ cursor: 'pointer' }}>
+            <td>{new Date(record.date).toLocaleDateString()}</td>
           </tr>
         ))}
       </tbody>
-    </table>
+    </Table>
   );
 };
 
-export default Table;
+export default AttendanceTable;
