@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Attendance from "./pages/Attendance";
+import AttendanceDetail from "./pages/AttendanceDetail";
 import Employees from "./pages/Employees";
 import CreateEmployee from "./pages/createEmployeeForm";
 import EditEmployee from "./pages/EditEmployeeForm";
@@ -23,6 +24,7 @@ const App = () => {
           {/* <Route path="/table" element={<Table records={records} />} /> */}
           <Route path="*" element={<NotFound />} />
           <Route path="/attendance" element={<Attendance />} />
+          <Route path="/attendance/:id" element={<AttendanceDetail />} />
           <Route path="/employees" element={<Employees />} />
           <Route path="/create-employee" element={<CreateEmployee />} />
           <Route path="/edit-employee/:id" element={<EditEmployee />} />

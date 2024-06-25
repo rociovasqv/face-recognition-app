@@ -24,7 +24,7 @@ const EditEmployee = () => {
     setEmployee({ ...employee, [e.target.name]: e.target.value });
   }
 
-  if ( loading || !employee ) return <Spinner animation="border" />;
+  if (loading || !employee ) return <Spinner animation="border" />;
 
   return (
     <Container>
