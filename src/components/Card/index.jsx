@@ -1,34 +1,41 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Correcto para v6
-import './styles.css';
+import React from 'react';
+import { Modal, Button } from 'react-bootstrap';
+import "./styles.css";
 
-const Card = ({ person, onStatusChange }) => {
-  const [errorMessage, setErrorMessage] = useState(''); // Corrección de setErrotMessage a setErrorMessage
-  const navigate = useNavigate(); // Cambio de useHistory a useNavigate
-
+const Card = ({ person, onStatusChange, show, setShow, isSuccess }) => {
+  const handleClose = () => setShow(false);
+  
   const handleRecognition = (isCorrect) => {
-    if (isCorrect) {
-      onStatusChange(person, 'present');
-    } else {
-      setErrorMessage('Datos incorrectos, vuelva a loguearse');
-      navigate('/login', {
-        state: { errorMessage: 'Datos incorrectos, vuelva a loguearse' },
-      });
-    }
+    onStatusChange(person, isCorrect);
+    setShow(false);
   };
 
-  return (
-    <div className="card">
-      <h3>{person.name} {person.lastName}</h3>
-      <p>DNI: {person.dni}</p>
-      <div className={`status ${person.status}`}>
-        {person.status === 'present' && <span>✔️ Presente</span>}
-        {person.status === 'absent' && <span>❌ Ausente</span>}
-      </div>
-      <button onClick={() => handleRecognition(true)}>Correctos</button>
-      <button onClick={() => handleRecognition(false)}>Incorrecto</button>
-      {errorMessage && <p>{errorMessage}</p>}
-    </div>
+  const fullName = `${person.firstName} ${person.lastName}`;
+
+ return (
+    <Modal show={show} onHide={handleClose} centered>
+      <Modal.Header closeButton>
+        <Modal.Title>{isSuccess ? 'Presencia Confirmada' : 'Confirmación de Identidad'}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+      {isSuccess ? (
+          <div className="alert alert-success mt-4" role="alert">
+            Tenes el presente {fullName}
+          </div>
+        ) : (
+          <>
+            <h3>Sos {fullName}?</h3>
+            <p>DNI: {person.dni}</p>
+          </>
+        )}
+      </Modal.Body>
+      {!isSuccess && (
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => handleRecognition(false)}>Incorrecto</Button>
+          <Button variant="primary" onClick={() => handleRecognition(true)}>Correcto</Button>
+        </Modal.Footer>
+      )}
+    </Modal>
   );
 };
 

@@ -13,9 +13,9 @@ const server = createServer(app);
 
 initializeDB();
 initializeFaceRecognitionModels();
+//seedUsers();
 initializeDailyAttendance();
 initializeDailyAttendanceCron();
-//seedUsers();
 
 server.listen(PORT, () => {
   console.log("Server live on PORT: ", PORT);

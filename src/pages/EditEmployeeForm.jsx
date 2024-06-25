@@ -12,7 +12,7 @@ const EditEmployee = () => {
         e.preventDefault();
         try {
           await submitEdit(e);
-          navigate('/employees');
+          navigate('/empleados');
         } catch (err) {
             setError({ error: true, message: err.response?.data?.message || "Error al actualizar" });
             setLoading(false);

@@ -8,7 +8,7 @@ const AttendanceTable = () => {
   const navigate = useNavigate();
 
   const rowClick = (id) => {
-    navigate(`/attendance/${id}`);
+    navigate(`/ver-presentismo/${id}`);
   };
 
   if (loading) {

@@ -22,7 +22,7 @@ const CreateEmployee = () =>
                 e.preventDefault();
                 try {
                   await submitCreate(e);
-                  navigate('/employees'); // Redirige a la página de inicio
+                  navigate('/empleados');
                 } catch (err) {
                     setError({ error: true, message: err.response?.data?.message || "Error al crear usuario" });
                     setLoading(false);

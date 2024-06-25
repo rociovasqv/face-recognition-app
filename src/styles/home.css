@@ -12,7 +12,51 @@ h1{
 body{
     background-color: #242424;
 }
-.homeHeader{
- text-align: center;
- margin: 2rem;
-}
+
+
+.homeHeader {
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  .cardContainer {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+  }
+  
+  .homeCard {
+    background-color: #ffffff;
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    padding: 20px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .homeCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .homeCard .card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .homeCard .card-text {
+    color: #6c757d;
+  }
+  
+  @media (max-width: 768px) {
+    .cardContainer {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .homeCard {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  }

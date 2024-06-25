@@ -5,8 +5,11 @@ import dailyAttendanceRoutes from "./routes/dailyAttendance.route.js";
 import cookieParser from "cookie-parser";
 import { corsOptions } from "./utils/constants.js";
 import cors from "cors";
+import morgan from "morgan";
 
 const app = express();
+
+app.use(morgan("dev")); // Loggea cada request en consola
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.json());

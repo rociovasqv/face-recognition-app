@@ -1,14 +1,9 @@
-import React from "react";
-import AttendanceTable from "../components/Table/index";
+import Table from "../components/Table";
 
 const Attendance = () =>
     {
         return(
-            <div>
-                <h1>Registro de asistencias</h1>
-                 <AttendanceTable />
-            </div>
-      
+       <Table/>
         )
     }
     export default Attendance;

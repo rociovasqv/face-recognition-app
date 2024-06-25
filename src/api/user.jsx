@@ -33,7 +33,7 @@ class UserService {
   }
 
   async getAllUsers() {
-    return await http.get(`${baseUrl}/all`);
+    return await http.get(`${baseUrl}/`);
   }
 }
 
