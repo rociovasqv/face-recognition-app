@@ -3,9 +3,7 @@ import NotFound from "../../pages/NotFound";
 
 export default function PrivateRoute({
   role,
-  nav,
   location,
-  userRole,
   component: Component,
   ...rest
 }) {

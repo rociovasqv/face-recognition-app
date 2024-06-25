@@ -1,4 +1,4 @@
-import { jsonInstance } from "./http-common";
+import { jsonInstance } from "./htttp-comon";
 
 const baseUrl = "/daily-attendance";
 const http = jsonInstance;
@@ -29,7 +29,8 @@ class DailyAttendanceService {
     return await http.delete(`${baseUrl}/${id}`);
   }
 
-  async markUserPresent(date, userId) {
+  async markUserPresent(userId) {
+    const date = new Date();
     const formattedDate = date.toISOString().split('T')[0];
     return await http.post(`${baseUrl}/mark-present`, { date: formattedDate, userId });
   }
