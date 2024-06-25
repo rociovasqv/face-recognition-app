@@ -4,7 +4,13 @@ import { useParams } from "react-router-dom";
 
 const editEmployeeHooks = () =>
     {
-        const [employee, setEmployee] = useState(null);
+        const [employee, setEmployee] = useState({
+            firstName: "",
+            lastName: "",
+            email: "",
+            dni: "",
+            role: ""
+          });
         const [loading, setLoading] = useState(false);
         const [error, setError] = useState({ error: false, message: "" });
         const { id } = useParams();
@@ -24,7 +30,7 @@ const editEmployeeHooks = () =>
             getOneEmployee();
         }, [id]);
 
-        const submitEdit = async (e) => {
+        const submitEdit = async () => {
             setLoading(true);
             setError({ error: false, message: "" });
 
@@ -36,7 +42,7 @@ const editEmployeeHooks = () =>
               }
         }
 
-        return { employee, setEmployee, loading, setLoading, error, submitEdit };
+        return { employee, setEmployee, loading, setLoading, error, setError, submitEdit };
     }
 
 export default editEmployeeHooks;

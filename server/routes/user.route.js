@@ -7,7 +7,7 @@ import { authenticateToken, authorize } from "../middleware/middlewares.js";
     decidimos la url y el controlador el cual va a responder a esa url cuando sea llamado
 */
 const router = Router();
-
+router.get("/all", userController.getAllUsers);
 router.post("/login", userController.login);
 
 router.use(authenticateToken);

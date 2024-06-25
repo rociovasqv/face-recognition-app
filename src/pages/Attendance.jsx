@@ -1,18 +1,9 @@
-import React from "react";
-import Videocam from "../components/Videocam/index";
-import "../styles/home.css";
+import Table from "../components/Table";
 
-function Attendance() {
-  return (
-    <div>
-      <div className="homeHeader">
-        <h1>Presentismo</h1>
-      </div>
-      <div className="homeBody">
-        <Videocam />
-      </div>
-    </div>
-  );
-}
-
-export default Attendance;
+const Attendance = () =>
+    {
+        return(
+       <Table/>
+        )
+    }
+    export default Attendance;

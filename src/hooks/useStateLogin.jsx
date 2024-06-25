@@ -51,5 +51,5 @@ const loginHooks = () =>
         }
         return { email, setEmail, password, setPassword, submitLogin, error, loading }
       };
-
+      
       export default loginHooks;
