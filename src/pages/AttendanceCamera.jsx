@@ -1,6 +1,5 @@
 import React from "react";
 import Videocam from "../components/Videocam/index";
-import "../styles/home.css";
 
 function AttendanceCamera() {
   return (

@@ -13,7 +13,7 @@ const TableEmployees = () => {
       <Button
         variant="primary"
         disabled={loading}
-        onClick={() => navigate("/create-employee")}
+        onClick={() => navigate("/crear-empleado")}
       >
         {loading ? <Spinner animation="border" size="sm" /> : "Crear"}
       </Button>
@@ -39,10 +39,10 @@ const TableEmployees = () => {
               <td>
                 <Button
                 className="btn-primary"
-                  onClick={() => navigate(`/edit-employee/${employee._id}`)}
+                  onClick={() => navigate(`/editar-empleado/${employee._id}`)}
                 >
                   Editar
-                </Button>{" "}
+                </Button>
                 <Button
                   className="btn-danger"
                   onClick={() => deleteEmployee(employee._id)}

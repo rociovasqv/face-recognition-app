@@ -29,7 +29,7 @@ const useEmployees = () =>
                    try{
                     await UserService.deleteUser(id);
                     setEmployees(
-                        (prevEmployees) => prevEmployees.filter(employee => employee.id !== id)
+                        (prevEmployees) => prevEmployees.filter(employee => employee._id !== id)
                     );
                    }
                    catch(err){

@@ -6,7 +6,7 @@ import userService from "../../api/user";
 import { AuthContext } from "../../contexts/authContext";
 
 const Navbar = () => {
-  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, setIsAuthenticated, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -14,6 +14,7 @@ const Navbar = () => {
       const response = await userService.logout();
       if(response.status === 200){
         setIsAuthenticated(false);
+        setUser(null);
         navigate("/login");
       }
     } catch (error) {
