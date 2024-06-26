@@ -1,6 +1,6 @@
 import { Router } from "express";
 import dailyAttendanceController from "../controllers/dailyAttendance.controller.js";
-import { authenticateToken, authorize } from "../middleware/middlewares.js";
+// import { authenticateToken, authorize } from "../middleware/middlewares.js";
 
 const router = Router();
 
@@ -8,12 +8,12 @@ const router = Router();
 router.post("/mark-present", dailyAttendanceController.markUserPresent);
 
 //Private routes
-router.use(authenticateToken, authorize())
+// router.use(authenticateToken, authorize())
 
 router.post("/", dailyAttendanceController.create);
 router.get("/:id", dailyAttendanceController.getById);
 router.get("/date/:date", dailyAttendanceController.getByDate);
-router.get("/", authenticateToken, dailyAttendanceController.getAll);
+router.get("/", dailyAttendanceController.getAll);
 router.put("/:id", dailyAttendanceController.update);
 router.delete("/:id", dailyAttendanceController.delete);
 
