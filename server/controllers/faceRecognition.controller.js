@@ -22,11 +22,11 @@ class FaceRecognitionController {
         const userData = await userService.getUserById(userId);
         res.status(200).json(userData);
       } else {
-        res.json({ message: "No match found" });
+        res.status(404).json({ message: "No match found" });
       }
     } catch (error) {
       console.error("Error during face recognition:", error);
-      res.status(500).json({ message: "Internal server error" });
+      res.status(500).json({ message: error.message });
     } finally {
       // Elimina la imagen subida después de procesar
       fs.unlink(req?.file?.path, (err) => {

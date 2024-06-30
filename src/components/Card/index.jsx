@@ -1,41 +1,25 @@
-import React from 'react';
-import { Modal, Button } from 'react-bootstrap';
-import "./styles.css";
+import {
+  Card as CardMaterial,
+  CardBody,
+  Typography,
+} from "@material-tailwind/react";
 
-const Card = ({ person, onStatusChange, show, setShow, isSuccess }) => {
-  const handleClose = () => setShow(false);
-  
-  const handleRecognition = (isCorrect) => {
-    onStatusChange(person, isCorrect);
-    setShow(false);
-  };
-
-  const fullName = `${person.firstName} ${person.lastName}`;
-
- return (
-    <Modal show={show} onHide={handleClose} centered>
-      <Modal.Header closeButton>
-        <Modal.Title>{isSuccess ? 'Presencia Confirmada' : 'Confirmación de Identidad'}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-      {isSuccess ? (
-          <div className="alert alert-success mt-4" role="alert">
-            Tenes el presente {fullName}
-          </div>
-        ) : (
-          <>
-            <h3>Sos {fullName}?</h3>
-            <p>DNI: {person.dni}</p>
-          </>
-        )}
-      </Modal.Body>
-      {!isSuccess && (
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => handleRecognition(false)}>Incorrecto</Button>
-          <Button variant="primary" onClick={() => handleRecognition(true)}>Correcto</Button>
-        </Modal.Footer>
-      )}
-    </Modal>
+const Card = ({ title, description, icon, onClick }) => {
+  const Icon = icon;
+  return (
+    <CardMaterial className="mt-6 w-96 h-40 cursor-pointer" onClick={onClick}>
+      <CardBody className="flex flex-col">
+        <div className="flex items-center gap-2">
+          <Icon className="h-8 w-8 text-teal-500" strokeWidth={2} />
+          <Typography variant="h4" color="blue-gray" className="">
+            {title}
+          </Typography>
+        </div>
+        <Typography variant="paragraph" className="mt-4">
+          {description}
+        </Typography>
+      </CardBody>
+    </CardMaterial>
   );
 };
 

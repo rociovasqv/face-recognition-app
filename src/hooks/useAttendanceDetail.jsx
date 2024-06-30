@@ -2,25 +2,28 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import dailyAttendance from "../api/dailyAttendance";
 
-const attendanceDetailHooks = () => {
-  const [aDetail, setAdetail] = useState(null);
+const useAttendanceDetail = () => {
+  const [detail, setDetail] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const { id } = useParams();
 
   useEffect(() => {
     const getDataDetail = async () => {
       try {
+        setLoading(true);
         const res = await dailyAttendance.getById(id);
-        setAdetail(res.data);
-      } catch (error) {
-        console.error(
-          "Error al visualizar los datos de la fecha de asistencia",
-          error
-        );
+        setDetail(res.data);
+      } catch (err) {
+        setError(err)
+      } finally {
+        setLoading(false);
       }
     };
     getDataDetail();
   }, [id]);
 
-  return { aDetail, setAdetail };
+  return { detail, setDetail, error, loading };
 };
-export default attendanceDetailHooks;
+
+export default useAttendanceDetail;

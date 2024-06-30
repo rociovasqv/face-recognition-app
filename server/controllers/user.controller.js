@@ -84,6 +84,14 @@ class UserController {
       if (!deletedUser) {
         return res.status(404).json({ message: "User not found" });
       }
+
+      const today = new Date();
+      const existingDailyAttendance = await dailyAttendanceService.getByDate(today);
+      if (existingDailyAttendance) {
+        existingDailyAttendance.attendanceRecords = existingDailyAttendance.attendanceRecords.filter(record => !record.userId.equals(id));
+        await dailyAttendanceService.update(existingDailyAttendance._id, existingDailyAttendance);
+      }
+
       res.status(204).send();
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -133,24 +141,24 @@ class UserController {
 
     try {
       if (!email || !password) {
-        return res.status(400).json({ message: "Email and password are required." });
+        return res.status(400).json({ field: "general", message: "Email and password are required." });
       }
 
       const user = await userService.getUserByEmail(email);
       if (!user) {
-        return res.status(404).json({ message: "User not found" });
+        return res.status(404).json({ field: "email", message: "User not found" });
       }
 
       const isMatch = await comparePassword(password, user.password);
       if (!isMatch) {
-        return res.status(400).json({ message: "Invalid credentials" });
+        return res.status(400).json({ field: "password", message: "Invalid credentials" });
       }
 
       const token = generateJwt(user);
       res.cookie("token", token, { httpOnly: true });
       res.status(201).json({ id: user.id, role: user.role });
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ field: "general", message: error.message });
     }
   }
 

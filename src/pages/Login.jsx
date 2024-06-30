@@ -1,16 +1,7 @@
-import {
-  Col,
-  Button,
-  Row,
-  Container,
-  Card,
-  Form,
-  Alert,
-  Spinner,
-} from "react-bootstrap";
-import loginHooks from "../hooks/useStateLogin";
+import { Card, Input, Button, Typography } from "@material-tailwind/react";
+import Alert from "../components/Alert";
+import useLogin from "../hooks/useLogin";
 import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 
 const Login = () => {
   const {
@@ -21,18 +12,13 @@ const Login = () => {
     submitLogin,
     error,
     loading,
-  } = loginHooks();
+  } = useLogin();
   const navigate = useNavigate();
-  const location = useLocation();
-  const errorMessage = location.state?.errorMessage;
 
   const onSubmitLogin = async (e) => {
     e.preventDefault();
     try {
-      const correctLogin = await submitLogin(e);
-      if (correctLogin) {
-        navigate("/");
-      }
+      await submitLogin(e);
     } catch (err) {
       console.error("Error en el login:", err);
       navigate("/not-found", {
@@ -42,70 +28,69 @@ const Login = () => {
   };
 
   return (
-    <Container>
-      {errorMessage && <p>{errorMessage}</p>}
-      <Row className="vh-100 d-flex justify-content-center align-items-center">
-        <Col md={8} lg={6} xs={12}>
-          <div className="border border-3 border-primary"></div>
-          <Card className="shadow-light">
-            <Card.Body>
-              <div className="mb-3 mt-4 text-dark">
-                <h2 className="fw-bold mb-2 text-uppercase">Iniciar sesión</h2>
-                <p className=" mb-3 text-primary">
-                  ¡Por favor, ingresa tu correo y contraseña!
-                </p>
-                {error.error && <Alert variant="danger">{error.message}</Alert>}
-
-                <Form className="mb-3" onSubmit={onSubmitLogin}>
-                  <Form.Group className="mb-3" controlId="formEmail">
-                    <Form.Label className="text-secondary">
-                      Correo electrónico
-                    </Form.Label>
-                    <Form.Control
-                      type="email"
-                      placeholder="Ingresa correo"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-
-                  <Form.Group className="mb-3" controlId="formPassword">
-                    <Form.Label className="text-secondary">
-                      Contraseña
-                    </Form.Label>
-                    <Form.Control
-                      type="password"
-                      placeholder="Ingresar clave"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-
-                  <div className="mb-3">
-                    <p className="small">
-                      <a className="text-primary" href="#!">
-                        ¿Te olvidaste tu contraseña?
-                      </a>
-                    </p>
-                  </div>
-                  <div className="d-grid">
-                    <Button variant="primary" type="submit" disabled={loading}>
-                      {loading ? (
-                        <Spinner animation="border" size="sm" />
-                      ) : (
-                        "Ingresar"
-                      )}
-                    </Button>
-                  </div>
-                </Form>
-              </div>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+    <Card className="p-5 mt-20" shadow={false}>
+      {error.general && <Alert message={error.general} />}
+      <Typography variant="h4" color="blue-gray">
+        Iniciar sesión
+      </Typography>
+      <Typography color="gray" className="mt-1 font-normal">
+        ¡Por favor, ingresa tu correo y contraseña!
+      </Typography>
+      <form
+        className="mt-6 w-80 max-w-screen-lg sm:w-96"
+        onSubmit={onSubmitLogin}
+      >
+        <div className="mb-1 flex flex-col gap-6">
+          <div>
+            <Input
+              type="email"
+              size="lg"
+              color="teal"
+              label="Correo electrónico"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="nombre@email.com"
+              error={error.email.length > 0}
+              required
+            />
+            {error.email.length > 0 && (
+              <Typography
+                variant="small"
+                color="red"
+                className="mt-2 ml-1 font-normal"
+              >
+                {error.email}
+              </Typography>
+            )}
+          </div>
+          <div>
+            <Input
+              type="password"
+              color="teal"
+              size="lg"
+              label="Contraseña"
+              placeholder="********"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              error={error.password.length > 0}
+              required
+            />
+            {error.password.length > 0 && (
+              <Typography
+                variant="small"
+                color="red"
+                className="mt-1 ml-1 font-normal"
+              >
+                {error.password}
+              </Typography>
+            )}
+          </div>
+        </div>
+        <Button type="submit" color="teal" className="mt-6" loading={loading} fullWidth>
+          Ingresar
+        </Button>
+      </form>
+    </Card>
   );
 };
 

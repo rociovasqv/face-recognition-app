@@ -36,6 +36,19 @@ class DailyAttendanceController {
     }
   }
 
+  async getByDatePopulate(req, res) {
+    try {
+      const { date } = req.params;
+      const dailyAttendance = await dailyAttendanceService.getByDatePopulate(new Date(date));
+      if (!dailyAttendance) {
+        return res.status(404).json({ message: "Daily attendance record not found" });
+      }
+      res.status(200).json(dailyAttendance);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+
   async getAll(req, res) {
     try {
       const dailyAttendances = await dailyAttendanceService.getAll();

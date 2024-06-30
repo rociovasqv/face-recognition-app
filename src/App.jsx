@@ -4,67 +4,67 @@ import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Employees from "./pages/Employees";
-import CreateEmployee from "./pages/createEmployeeForm";
-import EditEmployee from "./pages/EditEmployeeForm";
-import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { AuthProvider } from "./contexts/authContext";
+import AttendanceList from "./pages/AttendanceList";
 import Attendance from "./pages/Attendance";
-import AttendanceCamera from "./pages/AttendanceCamera";
 import PrivateRoute from "./components/PrivateRoute";
 import AttendanceDetail from "./pages/AttendanceDetail";
+import Container from "./components/Container";
+import EmployeeForm from "./pages/EmployeeForm"
 
 const App = () => {
   return (
     <AuthProvider>
       <Router>
         <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/presentismo" element={<AttendanceCamera />} />
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/listado-presentismo"
-            element={
-              <PrivateRoute>
-                <Attendance />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/ver-presentismo/:id"
-            element={
-              <PrivateRoute>
-                <AttendanceDetail />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/empleados"
-            element={
-              <PrivateRoute>
-                <Employees />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/crear-empleado"
-            element={
-              <PrivateRoute>
-                <CreateEmployee />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/editar-empleado/:id"
-            element={
-              <PrivateRoute>
-                <EditEmployee />
-              </PrivateRoute>
-            }
-          />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Container>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/presentismo" element={<Attendance />} />
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/lista-presentismo"
+              element={
+                <PrivateRoute>
+                  <AttendanceList />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/ver-presentismo/:id"
+              element={
+                <PrivateRoute>
+                  <AttendanceDetail />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/empleados"
+              element={
+                <PrivateRoute>
+                  <Employees />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/crear-empleado"
+              element={
+                <PrivateRoute>
+                  <EmployeeForm />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/editar-empleado/:id"
+              element={
+                <PrivateRoute>
+                  <EmployeeForm isEdit />
+                </PrivateRoute>
+              }
+            />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Container>
       </Router>
     </AuthProvider>
   );
