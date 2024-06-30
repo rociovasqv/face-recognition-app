@@ -13,7 +13,7 @@ router.post("/mark-present", dailyAttendanceController.markUserPresent);
 router.post("/", dailyAttendanceController.create);
 router.get("/:id", dailyAttendanceController.getById);
 router.get("/date/:date", dailyAttendanceController.getByDatePopulate);
-router.get("/", authenticateToken, dailyAttendanceController.getAll);
+router.get("/", dailyAttendanceController.getAll);
 router.put("/:id", dailyAttendanceController.update);
 router.delete("/:id", dailyAttendanceController.delete);
 
