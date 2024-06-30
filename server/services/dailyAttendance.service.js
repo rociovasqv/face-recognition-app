@@ -54,6 +54,19 @@ class DailyAttendanceService {
 
     return await DailyAttendance.findOne({
       date: { $gte: startOfDay, $lt: endOfDay },
+    })
+  }
+
+  async getByDatePopulate(date) {
+    const startOfDay = new Date(
+      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0)
+    );
+    const endOfDay = new Date(
+      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59)
+    );
+
+    return await DailyAttendance.findOne({
+      date: { $gte: startOfDay, $lt: endOfDay },
     }).populate("attendanceRecords.userId", "-password");
   }
 

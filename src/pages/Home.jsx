@@ -1,9 +1,14 @@
 import React, { useContext } from "react";
-import { Card, Container, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import "../styles/home.css";
 import { AuthContext } from "../contexts/authContext";
 import { Roles } from "../data/constants";
+import {
+  CameraIcon,
+  UserIcon,
+  ClipboardDocumentCheckIcon,
+} from "@heroicons/react/24/solid";
+import Card from "../components/Card";
+import { Typography } from "@material-tailwind/react";
 
 function Home() {
   const navigate = useNavigate();
@@ -19,60 +24,38 @@ function Home() {
     navigate("/empleados");
   };
 
-  const goToListadoPresentismo = () => {
-    navigate("/listado-presentismo");
+  const goToListaPresentismo = () => {
+    navigate("/lista-presentismo");
   };
 
   return (
-    <Container>
-      <div className="homeHeader">
-        <h1>Home</h1>
-        <p>Bienvenido al Home!</p>
-      </div>
-      <Row className="cardContainer">
-        <Col md={4} className="d-flex">
-          <Card
-            className="homeCard align-items-stretch"
-            onClick={goToPresentismo}
-          >
-            <Card.Body>
-              <Card.Title>Presentismo</Card.Title>
-              <Card.Text>
-                Pone el presente laboral utilizando reconocimiento facial con nuestra IA
-              </Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
+    <>
+      <Typography variant="h1" className="mt-10 text-teal-500">Home</Typography>
+      <div className="flex flex-col items-center align-center gap-5">
+        <Card
+          title="Presentismo"
+          description="Pone el presente laboral utilizando reconocimiento facial con nuestra IA."
+          icon={CameraIcon}
+          onClick={goToPresentismo}
+        />
         {admitedRoles.includes(user?.role) && (
           <>
-            <Col md={4} className="d-flex">
-              <Card
-                className="homeCard align-items-stretch"
-                onClick={goToUsuarios}
-              >
-                <Card.Body>
-                  <Card.Title>Empleados</Card.Title>
-                  <Card.Text>Gestión y administración de cuentas de empleados.</Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col md={4} className="d-flex">
-              <Card
-                className="homeCard align-items-stretch"
-                onClick={goToListadoPresentismo}
-              >
-                <Card.Body>
-                  <Card.Title>Listado de Presentismo</Card.Title>
-                  <Card.Text>
-                    Ver registros de asistencias e inasistencias
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
+            <Card
+              title="Empleados"
+              description="Gestión y administración de cuentas de empleados."
+              icon={UserIcon}
+              onClick={goToUsuarios}
+            />
+            <Card
+              title="Lista de presentismo"
+              description="Ver registros de asistencias e inasistencias."
+              icon={ClipboardDocumentCheckIcon}
+              onClick={goToListaPresentismo}
+            />
           </>
         )}
-      </Row>
-    </Container>
+      </div>
+    </>
   );
 }
 

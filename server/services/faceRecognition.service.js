@@ -26,14 +26,22 @@ class FaceRecognitionService {
 
   compareDescriptors(queryDescriptor, storedDescriptors, threshold = 0.6) {
     console.log('Comparing descriptors...');
+    let bestMatchId = null;
+    let minDistance = Number.MAX_VALUE;
     for (const { _id, faceDescriptor, fullName } of storedDescriptors) {
       const distance = faceapi.euclideanDistance(queryDescriptor, faceDescriptor);
       console.log(`Distance to user ${fullName}: ${distance}`);
-      if (distance < threshold) {
-        console.log(`Match found with user ${fullName}`);
-        return _id;
+      if (distance < threshold && distance < minDistance) {
+        minDistance = distance;
+        bestMatchId = _id;
       }
     }
+    
+    if (bestMatchId) {
+      console.log(`Best match found with user ${storedDescriptors.find(user => user._id === bestMatchId).fullName}`);
+      return bestMatchId;
+    }
+
     console.log('No match found.');
     return null;
   }
