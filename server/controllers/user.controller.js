@@ -18,12 +18,12 @@ class UserController {
       const { role } = formData;
       if(role === Roles.SECRETARY || role === Roles.EMPLOYEE){
         if(!req.file){
-          return res.status(400).send({ error: "No file has been uploaded." });
+          return res.status(400).send({ message: "No file has been uploaded." });
         }
         const queryImagePath = req.file.path;
         const faceDescriptor = await faceRecognitionService.getQueryDescriptor(queryImagePath);
         if (!faceDescriptor) {
-          return res.status(400).send({ error: "No face detected in query image." });
+          return res.status(400).send({ message: "No face detected in query image." });
         }
         formData.faceDescriptor = Array.from(faceDescriptor)
       }

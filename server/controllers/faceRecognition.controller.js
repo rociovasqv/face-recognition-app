@@ -12,7 +12,7 @@ class FaceRecognitionController {
   async recognizeFace(req, res) {
     try {
       if (!req.file) {
-        return res.status(400).send({ error: "No file has been uploaded." });
+        return res.status(400).send({ message: "No file has been uploaded." });
       }
       const queryImagePath = req.file.path; // Ruta de la imagen subida
       const userId = await faceRecognitionService.recognizeFace(queryImagePath);

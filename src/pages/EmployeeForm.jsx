@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import UserService from "../api/user";
 import { Roles } from "../data/constants";
 import { Card, Typography, Input, Select, Button, Option } from "@material-tailwind/react";
+import Alert from "../components/Alert";
 
 const EmployeeForm = ({ isEdit = false }) => {
   const [employee, setEmployee] = useState({
@@ -77,10 +78,9 @@ const EmployeeForm = ({ isEdit = false }) => {
     }
   };
 
-console.log(employee)
   return (
     <Card className="p-5 mt-20" shadow={false}>
-      {error && <Alert message={error.message} />}
+      {error && <Alert message={error} />}
       <Typography variant="h4" color="blue-gray">
         {isEdit ? "Editar" : "Crear"} empleado
       </Typography>
